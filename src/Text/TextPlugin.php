@@ -14,15 +14,15 @@ use Nopolabs\Yabot\Helpers\SlackTrait;
 use Nopolabs\Yabot\Http\HttpServer;
 use Psr\Log\LoggerInterface;
 use React\Stream\BufferedSink;
-use Twilio\Rest\Client as TwilioClient;
+use Text\TextClient;
 
 class TextPlugin implements PluginInterface
 {
     use PluginTrait;
     use SlackTrait;
 
-    /** @var TwilioClient */
-    private $twilio;
+    /** @var TextClient */
+    private $textClient;
     private $fromPhone;
 
     public function __construct(
@@ -30,7 +30,7 @@ class TextPlugin implements PluginInterface
         LoggerInterface $logger,
         SlackClient $slack,
         HttpServer $http,
-        TwilioClient $twilio,
+        TextClient $textClient,
         $fromPhone,
         array $config = [])
     {
@@ -38,7 +38,7 @@ class TextPlugin implements PluginInterface
         $this->setLog($logger);
         $this->setSlack($slack);
         $http->addHandler([$this, 'request']);
-        $this->twilio = $twilio;
+        $this->textClient = $textClient;
         $this->fromPhone = $fromPhone;
 
         $default =[
@@ -56,16 +56,10 @@ class TextPlugin implements PluginInterface
 
     public function text(MessageInterface $msg, array $matches)
     {
-        $number = '+1'.str_replace('-', '', $matches['number']);
+        $to = '+1'.str_replace('-', '', $matches['number']);
         $message = $matches['message'];
 
-        $this->twilio->messages->create(
-            $number, // to
-            array(
-                'from' => $this->fromPhone,
-                'body' => $message,
-            )
-        );
+        $this->textClient->send($to, $this->fromPhone, $message);
     }
 
     public function request(HttpRequest $request, HttpResponse $response)
