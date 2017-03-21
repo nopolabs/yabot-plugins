@@ -1,0 +1,83 @@
+parameters:
+    plugin.lookup.config: []
+    plugin.reservations.config: []
+    plugin.queue.config: []
+    reservations.resources.config: []
+    queue.config: []
+
+services:
+    plugin.text:
+        class: Nopolabs\Yabot\Text\TextPlugin
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+            - '@slack.client'
+            - '@http.server'
+            - '@twilio.client'
+            - '%twilio.phone.number%'
+        tags:
+            - { name: yabot.plugin }
+
+    plugin.hey:
+        class: Nopolabs\Yabot\Examples\Hey
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+        tags:
+            - { name: yabot.plugin }
+
+    plugin.lookup:
+        class: Nopolabs\Yabot\Examples\Lookup
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+            - '%plugin.lookup.config%'
+        tags:
+            - { name: yabot.plugin }
+
+    plugin.reservations:
+        class: Nopolabs\Yabot\Reservations\ReservationsPlugin
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+            - '@reservations.resources'
+            - '%plugin.reservations.config%'
+        tags:
+            - { name: yabot.plugin }
+
+    plugin.queue:
+        class: Nopolabs\Yabot\Queue\QueuePlugin
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+            - '@queue'
+            - '%plugin.queue.config%'
+        tags:
+            - { name: yabot.plugin }
+
+    reservations.resources:
+        class: Nopolabs\Yabot\Reservations\Resources
+        arguments:
+            - '@slack.client'
+            - '@storage'
+            - '@event.loop'
+            - '%reservations.resources.config%'
+
+    queue:
+        class: Nopolabs\Yabot\Queue\Queue
+        arguments:
+            - '@storage'
+            - '%queue.config%'
+
+    http.server:
+        class: Nopolabs\Yabot\Http\HttpServer
+        arguments:
+            - '13337'
+            - '@event.loop'
+            - '@logger'
+
+    twilio.client:
+        class: Twilio\Rest\Client
+        arguments:
+            - '%twilio.sid%'
+            - '%twilio.token%'

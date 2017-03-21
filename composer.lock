@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "636186395bff1a698a4a79914a4e9c8f",
+    "content-hash": "b82c1ebce14960782a9a888b87f6be2b",
     "packages": [
         {
             "name": "coderstephen/slack-client",
@@ -442,12 +442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "9321c0ccaf19f01d8fb1bae7f60c62a165852c90"
+                "reference": "af172d7876883b8a20a229079091a2b7e0159efd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/9321c0ccaf19f01d8fb1bae7f60c62a165852c90",
-                "reference": "9321c0ccaf19f01d8fb1bae7f60c62a165852c90",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/af172d7876883b8a20a229079091a2b7e0159efd",
+                "reference": "af172d7876883b8a20a229079091a2b7e0159efd",
                 "shasum": ""
             },
             "require": {
@@ -471,7 +471,11 @@
                     "Nopolabs\\Yabot\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Nopolabs\\Yabot\\Tests\\": "tests"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -482,7 +486,11 @@
                 }
             ],
             "description": "Yet Another Bot",
-            "time": "2017-03-19 05:32:28"
+            "support": {
+                "source": "https://github.com/nopolabs/yabot/tree/master",
+                "issues": "https://github.com/nopolabs/yabot/issues"
+            },
+            "time": "2017-03-21 00:36:47"
         },
         {
             "name": "psr/cache",
@@ -1458,6 +1466,52 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2017-03-07T16:47:02+00:00"
+        },
+        {
+            "name": "twilio/sdk",
+            "version": "5.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "29306b582c461e300e85d18877cf4a9b67fb6175"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/29306b582c461e300e85d18877cf4a9b67fb6175",
+                "reference": "29306b582c461e300e85d18877cf4a9b67fb6175",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "apigen/apigen": "^4.1",
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Twilio\\": "Twilio/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "http://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2017-03-13T22:00:13+00:00"
         },
         {
             "name": "zendframework/zend-escaper",
