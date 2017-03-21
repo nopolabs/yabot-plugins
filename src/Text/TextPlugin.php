@@ -14,7 +14,6 @@ use Nopolabs\Yabot\Helpers\SlackTrait;
 use Nopolabs\Yabot\Http\HttpServer;
 use Psr\Log\LoggerInterface;
 use React\Stream\BufferedSink;
-use Text\TextClient;
 
 class TextPlugin implements PluginInterface
 {
@@ -31,7 +30,6 @@ class TextPlugin implements PluginInterface
         SlackClient $slack,
         HttpServer $http,
         TextClient $textClient,
-        $fromPhone,
         array $config = [])
     {
         $this->setDispatcher($dispatcher);
@@ -39,7 +37,7 @@ class TextPlugin implements PluginInterface
         $this->setSlack($slack);
         $http->addHandler([$this, 'request']);
         $this->textClient = $textClient;
-        $this->fromPhone = $fromPhone;
+        $this->fromPhone = $config['twilio']['phone'];
 
         $default =[
             'text' => [
@@ -62,6 +60,13 @@ class TextPlugin implements PluginInterface
         $this->textClient->send($to, $this->fromPhone, $message);
     }
 
+    /**
+     * Need to configure twilio phone number messaging URL: https://www.twilio.com/console/phone-numbers/incoming
+     * For testing I use ngrok to tunnel local ports to public URLs and inspect traffic https://ngrok.com/
+     *
+     * @param HttpRequest $request
+     * @param HttpResponse $response
+     */
     public function request(HttpRequest $request, HttpResponse $response)
     {
         $headers = array('Content-Type' => 'text/plain');

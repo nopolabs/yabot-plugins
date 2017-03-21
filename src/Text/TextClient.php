@@ -1,6 +1,6 @@
 <?php
 
-namespace Text;
+namespace Nopolabs\Yabot\Text;
 
 
 use Twilio\Rest\Client;
