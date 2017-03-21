@@ -1,0 +1,44 @@
+{
+    "name": "nopolabs/yabot-plugins",
+    "description": "Plugins for nopolabs/yabot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dan Revel",
+            "email": "dan@nopolabs.com"
+        }
+    ],
+    "require": {
+        "nopolabs/yabot": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Nopolabs\\Yabot\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nopolabs\\Yabot\\Tests\\": "tests"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/nopolabs/yabot"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/nopolabs/mock-with-expectations"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/nopolabs/slack-client"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:nopolabs/phpws.git"
+        }
+    ]
+}
