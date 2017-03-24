@@ -10,7 +10,8 @@
     ],
     "require": {
         "nopolabs/yabot": "dev-master",
-        "twilio/sdk": "^5.7"
+        "twilio/sdk": "^5.7",
+        "roave/security-advisories": "dev-master"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
