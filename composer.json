@@ -32,10 +32,6 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/nopolabs/mock-with-expectations"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/nopolabs/slack-client"
         },
         {
