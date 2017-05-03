@@ -27,3 +27,18 @@ you should have a directory like this:
     |-- config.php
     |-- vendor/
     `-- yabot.php
+
+## Adding plugins to plugins.yml
+
+If you required nopolabs/yabot-plugins then you will be able to find example plugin configs in
+vendor/nopolabs/yabot-plugins/config/plugins.yml
+
+These configs can be
+[imported](http://symfony.com/doc/current/service_container/import.html)
+by reference:
+
+    # app/config/config.yml
+    imports:
+        - { resource: '%kernel.root_dir%/vendor/nopolabs/yabot-plugins/config/plugins.yml' }
+
+But you may wish to include them more selectively
