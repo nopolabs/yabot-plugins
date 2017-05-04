@@ -11,9 +11,7 @@ use Psr\Log\LoggerInterface;
 
 class ReservationsPlugin implements PluginInterface
 {
-    use PluginTrait {
-        init as protected traitInit;
-    }
+    use PluginTrait;
 
     /** @var ResourcesInterface */
     protected $resources;
@@ -52,7 +50,8 @@ class ReservationsPlugin implements PluginInterface
 
     public function init(string $pluginId, array $params)
     {
-        $this->traitInit($pluginId, $params);
+        $this->pluginId = $pluginId;
+        $this->config = $this->canonicalConfig(array_merge($this->config, $params));
 
         $matchers = $this->config['matchers'];
         $resourceNamePlural = $this->config['resourceNamePlural'];
@@ -63,6 +62,8 @@ class ReservationsPlugin implements PluginInterface
         $matchers = $this->replaceInPatterns(' ', "\\s+", $matchers);
 
         $this->config['matchers'] = $matchers;
+
+        $this->checkMatchers($this->config['matchers']);
     }
 
     public function reserve(MessageInterface $msg, array $matches)
