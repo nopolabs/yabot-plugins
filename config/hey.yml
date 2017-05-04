@@ -1,6 +1,6 @@
 services:
     plugin.hey:
-        class: Nopolabs\Yabot\Examples\Hey
+        class: Nopolabs\Yabot\Plugins\Examples\Hey
         arguments:
             - '@message.dispatcher'
             - '@logger'

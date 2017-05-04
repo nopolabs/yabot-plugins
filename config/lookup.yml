@@ -3,7 +3,7 @@ parameters:
 
 services:
     plugin.lookup:
-        class: Nopolabs\Yabot\Examples\Lookup
+        class: Nopolabs\Yabot\Plugins\Examples\Lookup
         arguments:
             - '@message.dispatcher'
             - '@logger'

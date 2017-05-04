@@ -1,6 +1,6 @@
 <?php
 
-namespace Nopolabs\Yabot\Reservations;
+namespace Nopolabs\Yabot\Plugins\Reservations;
 
 use DateTime;
 use Nopolabs\Yabot\Bot\MessageDispatcher;

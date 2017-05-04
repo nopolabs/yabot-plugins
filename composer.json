@@ -17,12 +17,12 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Nopolabs\\Yabot\\": "src"
+            "Nopolabs\\Yabot\\Plugins\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Nopolabs\\Yabot\\Tests\\": "tests"
+            "Nopolabs\\Yabot\\Plugins\\Tests\\": "tests"
         }
     },
     "repositories": [

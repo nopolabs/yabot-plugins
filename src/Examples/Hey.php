@@ -1,6 +1,6 @@
 <?php
 
-namespace Nopolabs\Yabot\Examples;
+namespace Nopolabs\Yabot\Plugins\Examples;
 
 use Nopolabs\Yabot\Bot\MessageInterface;
 use Nopolabs\Yabot\Bot\PluginInterface;

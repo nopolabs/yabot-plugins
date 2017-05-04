@@ -1,6 +1,6 @@
 <?php
 
-namespace Nopolabs\Yabot\Sms;
+namespace Nopolabs\Yabot\Plugins\Sms;
 
 use React\Http\Request as HttpRequest;
 use React\Http\Response as HttpResponse;

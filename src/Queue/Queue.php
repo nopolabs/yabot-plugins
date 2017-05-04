@@ -1,6 +1,6 @@
 <?php
 
-namespace Nopolabs\Yabot\Queue;
+namespace Nopolabs\Yabot\Plugins\Queue;
 
 
 use Nopolabs\Yabot\Bot\Message;

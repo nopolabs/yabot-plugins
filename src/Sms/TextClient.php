@@ -1,6 +1,6 @@
 <?php
 
-namespace Nopolabs\Yabot\Sms;
+namespace Nopolabs\Yabot\Plugins\Sms;
 
 
 use Twilio\Rest\Client;

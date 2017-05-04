@@ -1,6 +1,6 @@
 <?php
 
-namespace Nopolabs\Yabot\Reservations;
+namespace Nopolabs\Yabot\Plugins\Reservations;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
