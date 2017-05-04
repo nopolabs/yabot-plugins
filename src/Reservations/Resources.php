@@ -15,12 +15,10 @@ use React\EventLoop\LoopInterface;
 use Slack\User;
 
 /**
- * Class Resources
- * @package Nopolabs\Yabot\Reservations
- *
  * $config = [
  *     'channel' => 'general',
  *     'storageName' => 'resources',
+ *     'keys' => ['dev1','dev2'],
  * ];
  */
 class Resources implements ResourcesInterface

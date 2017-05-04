@@ -37,7 +37,7 @@ These configs can be by reference:
 
     # app/config/config.yml
     imports:
-        - { resource: '%kernel.root_dir%/vendor/nopolabs/yabot-plugins/config/plugins.yml' }
+        - { resource: '../vendor/nopolabs/yabot-plugins/config/plugins.yml' }
 
 But you may wish to include them more selectively.
 
@@ -45,5 +45,3 @@ See the Symfony [import](http://symfony.com/doc/current/service_container/import
 and remember:
 
     The resource location, for files, is either a relative path from the current file or an absolute path.
-
-
