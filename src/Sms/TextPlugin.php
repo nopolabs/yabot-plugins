@@ -1,11 +1,9 @@
 <?php
 
-namespace Nopolabs\Yabot\Text;
-
+namespace Nopolabs\Yabot\Sms;
 
 use React\Http\Request as HttpRequest;
 use React\Http\Response as HttpResponse;
-use Nopolabs\Yabot\Bot\MessageDispatcher;
 use Nopolabs\Yabot\Bot\MessageInterface;
 use Nopolabs\Yabot\Bot\PluginInterface;
 use Nopolabs\Yabot\Bot\PluginTrait;
@@ -25,31 +23,30 @@ class TextPlugin implements PluginInterface
     private $fromPhone;
 
     public function __construct(
-        MessageDispatcher $dispatcher,
         LoggerInterface $logger,
         SlackClient $slack,
         HttpServer $http,
         TextClient $textClient,
-        array $config = [])
+        array $config)
     {
-        $this->setDispatcher($dispatcher);
         $this->setLog($logger);
         $this->setSlack($slack);
         $http->addHandler([$this, 'request']);
         $this->textClient = $textClient;
         $this->fromPhone = $config['twilio']['phone'];
 
-        $default =[
-            'text' => [
-                'pattern' => "/^text (?'number'\\d{3}-?\\d{3}-?\\d{4})\\b(?'message'.*)$/",
-                'channel' => 'general',
-                'method' => 'text',
+        $this->setConfig(array_merge(
+            [
+                'matchers' => [
+                    'text' => [
+                        'pattern' => "/^text (?'number'\\d{3}-?\\d{3}-?\\d{4})\\b(?'message'.*)$/",
+                        'channel' => 'general',
+                        'method' => 'text',
+                    ],
+                ],
             ],
-        ];
-
-        $matchers = array_merge($default, $config);
-
-        $this->setMatchers($matchers);
+            $config
+        ));
     }
 
     public function text(MessageInterface $msg, array $matches)

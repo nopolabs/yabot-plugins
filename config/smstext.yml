@@ -1,0 +1,19 @@
+parameters:
+    smstext.config: []
+
+services:
+    plugin.smstext:
+        class: Nopolabs\Yabot\Sms\TextPlugin
+        arguments:
+            - '@logger'
+            - '@slack.client'
+            - '@http.server'
+            - '@smstext.client'
+            - '%smstext.config%'
+        tags:
+            - { name: yabot.plugin }
+
+    smstext.client:
+        class: Nopolabs\Yabot\Sms\TextClient
+        arguments:
+            - '%smstext.config%'

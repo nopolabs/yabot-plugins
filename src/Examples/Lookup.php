@@ -13,29 +13,22 @@ class Lookup implements PluginInterface
     use PluginTrait;
 
     public function __construct(
-        MessageDispatcher $dispatcher,
         LoggerInterface $logger,
         array $config = [])
     {
-        $this->setDispatcher($dispatcher);
         $this->setLog($logger);
 
-        $default = [
-            'channel' => 'general',
-            'matchers' => [
-                'lookupUser' => "/^lookup <@(?'user'\\w+)>/",
-                'lookupChannel' => "/^lookup <#(?'channel'\\w+)\\|\\w+>/",
+        $this->setConfig(array_merge(
+            [
+                'prefix' => 'lookup',
+                'channel' => 'general',
+                'matchers' => [
+                    'lookupUser' => "/^<@(?'user'\\w+)>/",
+                    'lookupChannel' => "/^<#(?'channel'\\w+)\\|\\w+>/",
+                ],
             ],
-        ];
-
-        $config = array_merge($default, $config);
-
-        $channel = $config['channel'];
-        $matchers = $config['matchers'];
-
-        $matchers = $this->addToMatchers('channel', $channel, $matchers);
-
-        $this->setMatchers($matchers);
+            $config
+        ));
     }
 
     public function lookupUser(MessageInterface $msg, array $matches)

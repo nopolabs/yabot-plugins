@@ -1,0 +1,12 @@
+parameters:
+    plugin.lookup.config: []
+
+services:
+    plugin.lookup:
+        class: Nopolabs\Yabot\Examples\Lookup
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+            - '%plugin.lookup.config%'
+        tags:
+            - { name: yabot.plugin }

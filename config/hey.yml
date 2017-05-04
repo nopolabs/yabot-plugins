@@ -1,0 +1,8 @@
+services:
+    plugin.hey:
+        class: Nopolabs\Yabot\Examples\Hey
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+        tags:
+            - { name: yabot.plugin }

@@ -1,0 +1,20 @@
+parameters:
+    plugin.queue.config: []
+    queue.config: []
+
+services:
+    plugin.queue:
+        class: Nopolabs\Yabot\Queue\QueuePlugin
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+            - '@queue'
+            - '%plugin.queue.config%'
+        tags:
+            - { name: yabot.plugin }
+
+    queue:
+        class: Nopolabs\Yabot\Queue\Queue
+        arguments:
+            - '@storage'
+            - '%queue.config%'

@@ -17,7 +17,6 @@ class ReservationsPlugin implements PluginInterface
     protected $resources;
 
     public function __construct(
-        MessageDispatcher $dispatcher,
         LoggerInterface $logger,
         ResourcesInterface $resources,
         array $config = [])
@@ -69,7 +68,7 @@ class ReservationsPlugin implements PluginInterface
     {
         $key = $matches['resource'];
         $results = $this->placeReservation($msg, $key, new DateTime('+ 12 hours'));
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 

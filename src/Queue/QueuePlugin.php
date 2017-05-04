@@ -16,7 +16,6 @@ class QueuePlugin implements PluginInterface
     protected $queue;
 
     public function __construct(
-        MessageDispatcher $dispatcher,
         LoggerInterface $logger,
         Queue $queue,
         array $config = [])
@@ -24,31 +23,19 @@ class QueuePlugin implements PluginInterface
         $this->setLog($logger);
         $this->queue = $queue;
 
-        $default = [
-            'channel' => 'general',
-            'matchers' => [
-                'push' => "/^push #?(?'item'[0-9]{4,5})\\b/",
-                'next' => "/^next\\s*$/",
-                'remove' => "/^rm #?(?'item'[0-9]{4,5})\\b/",
-                'clear' => "/^clear\\s*$/",
-                'list' => "/^list$/",
+        $this->setConfig(array_merge(
+            [
+                'channel' => 'general',
+                'matchers' => [
+                    'push' => "/^push\\s+#?(?'item'[0-9]{4,5})\\b/",
+                    'next' => '/^next$/',
+                    'remove' => "/^rm #?(?'item'[0-9]{4,5})\\b/",
+                    'clear' => '/^clear$/',
+                    'list' => '/^list$/',
+                ],
             ],
-        ];
-
-        $config = array_merge($default, $config);
-
-        if (isset($config['prefix'])) {
-            $dispatcher->setPrefix($config['prefix']);
-        }
-        $this->setDispatcher($dispatcher);
-
-        $channel = $config['channel'];
-        $matchers = $config['matchers'];
-
-        $matchers = $this->addToMatchers('channel', $channel, $matchers);
-        $matchers = $this->replaceInPatterns(' ', "\\s+", $matchers);
-
-        $this->setMatchers($matchers);
+            $config
+        ));
     }
 
     public function push(MessageInterface $msg, array $matches)
@@ -87,15 +74,16 @@ class QueuePlugin implements PluginInterface
     {
         $results = [];
 
-        if (empty($this->queue)) {
+        $details = $this->queue->getDetails();
+        if (empty($details)) {
             $results[] = 'The queue is empty.';
         } else {
-            foreach ($this->queue->getDetails() as $detail) {
+            foreach ($details as $detail) {
                 $results[] = $detail;
             }
         }
 
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 }

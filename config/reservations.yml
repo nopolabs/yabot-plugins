@@ -1,0 +1,24 @@
+parameters:
+    plugin.reservations.config: []
+    plugin.queue.config: []
+    reservations.resources.config: []
+    queue.config: []
+
+services:
+    plugin.reservations:
+        class: Nopolabs\Yabot\Reservations\ReservationsPlugin
+        arguments:
+            - '@message.dispatcher'
+            - '@logger'
+            - '@reservations.resources'
+            - '%plugin.reservations.config%'
+        tags:
+            - { name: yabot.plugin }
+
+    reservations.resources:
+        class: Nopolabs\Yabot\Reservations\Resources
+        arguments:
+            - '@slack.client'
+            - '@storage'
+            - '@event.loop'
+            - '%reservations.resources.config%'
