@@ -11,7 +11,9 @@ use Psr\Log\LoggerInterface;
 
 class ReservationsPlugin implements PluginInterface
 {
-    use PluginTrait;
+    use PluginTrait {
+        init as protected traitInit;
+    }
 
     /** @var ResourcesInterface */
     protected $resources;
@@ -24,44 +26,43 @@ class ReservationsPlugin implements PluginInterface
         $this->setLog($logger);
         $this->resources = $resources;
 
-        $default = [
-            'resourceNamePlural' => 'resources',
-            'channel' => 'general',
-            'matchers' => [
-                'reserveForever' => "/^reserve #resourceCapture# forever\\b/",
-                'reserveUntil' => "/^reserve #resourceCapture# until (?'until'.+)/",
-                'reserve' => "/^reserve #resourceCapture#/",
+        $this->setConfig(array_merge(
+            [
+                'resourceNamePlural' => 'resources',
+                'channel' => 'general',
+                'matchers' => [
+                    'reserveForever' => "/^reserve #resourceCapture# forever\\b/",
+                    'reserveUntil' => "/^reserve #resourceCapture# until (?'until'.+)/",
+                    'reserve' => "/^reserve #resourceCapture#/",
 
-                'release' => "/^release #resourceCapture#/",
-                'releaseMine' => "/^release mine\\b/",
-                'releaseAll' => "/^release all\\b/",
+                    'release' => "/^release #resourceCapture#/",
+                    'releaseMine' => "/^release mine\\b/",
+                    'releaseAll' => "/^release all\\b/",
 
-                'list' => "/^list #resourceNamePlural#\\b/",
-                'listMine' => "/^what #resourceNamePlural# are mine\\b/",
-                'listFree' => "/^what #resourceNamePlural# are free\\b/",
+                    'list' => "/^list #resourceNamePlural#\\b/",
+                    'listMine' => "/^what #resourceNamePlural# are mine\\b/",
+                    'listFree' => "/^what #resourceNamePlural# are free\\b/",
 
-                'isFree' => "/^is #resourceCapture# free\\b/",
+                    'isFree' => "/^is #resourceCapture# free\\b/",
+                ],
             ],
-        ];
+            $config
+        ));
+    }
 
-        $config = array_merge($default, $config);
+    public function init(string $pluginId, array $params)
+    {
+        $this->traitInit($pluginId, $params);
 
-        if (isset($config['prefix'])) {
-            $dispatcher->setPrefix($config['prefix']);
-        }
-        $this->setDispatcher($dispatcher);
+        $matchers = $this->config['matchers'];
+        $resourceNamePlural = $this->config['resourceNamePlural'];
+        $resourceCapture = "(:?\\b(?'resource'".implode('|', $this->resources->getKeys()).")\\b)";
 
-        $channel = $config['channel'];
-        $matchers = $config['matchers'];
-        $resourceNamePlural = $config['resourceNamePlural'];
-        $resourceCapture = "(:?\\b(?'resource'".join('|', $resources->getKeys()).")\\b)";
-
-        $matchers = $this->addToMatchers('channel', $channel, $matchers);
         $matchers = $this->replaceInPatterns('#resourceNamePlural#', $resourceNamePlural, $matchers);
         $matchers = $this->replaceInPatterns('#resourceCapture#', $resourceCapture, $matchers);
         $matchers = $this->replaceInPatterns(' ', "\\s+", $matchers);
 
-        $this->setMatchers($matchers);
+        $this->config['matchers'] = $matchers;
     }
 
     public function reserve(MessageInterface $msg, array $matches)
@@ -76,7 +77,7 @@ class ReservationsPlugin implements PluginInterface
     {
         $key = $matches['resource'];
         $results = $this->placeReservation($msg, $key);
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 
@@ -85,7 +86,7 @@ class ReservationsPlugin implements PluginInterface
         $key = $matches['resource'];
         $until = $matches['until'];
         $results = $this->placeReservation($msg, $key, new DateTime($until));
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 
@@ -93,7 +94,7 @@ class ReservationsPlugin implements PluginInterface
     {
         $key = $matches['resource'];
         $results = $this->releaseReservation($msg, $key);
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 
@@ -105,7 +106,7 @@ class ReservationsPlugin implements PluginInterface
                 $results = array_merge($results, $this->releaseReservation($msg, $key));
             }
         }
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 
@@ -115,14 +116,14 @@ class ReservationsPlugin implements PluginInterface
         foreach ($this->resources->getKeys() as $key) {
             $results = array_merge($results, $this->releaseReservation($msg, $key));
         }
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 
     public function list(MessageInterface $msg, array $matches)
     {
         $results = $this->resources->getAllStatuses();
-        $msg->reply(join("\n", $results));
+        $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 
@@ -134,7 +135,7 @@ class ReservationsPlugin implements PluginInterface
                 $results[] = $key;
             }
         }
-        $msg->reply(join(',', $results));
+        $msg->reply(implode(',', $results));
         $msg->setHandled(true);
     }
 
@@ -146,7 +147,7 @@ class ReservationsPlugin implements PluginInterface
                 $results[] = $key;
             }
         }
-        $msg->reply(join(',', $results));
+        $msg->reply(implode(',', $results));
         $msg->setHandled(true);
     }
 
@@ -164,7 +165,7 @@ class ReservationsPlugin implements PluginInterface
                 $results[] = "$key is reserved by {$resource['user']}";
             }
         }
-        $msg->reply(join(',', $results));
+        $msg->reply(implode(',', $results));
         $msg->setHandled(true);
     }
 
