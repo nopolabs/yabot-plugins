@@ -20,12 +20,10 @@ class Hey implements PluginInterface
             'matchers' => [
                 'hey' => [
                     'patterns' => ["/^(?'text'[^?].*)/"],
-                    'channel' => 'general',
-                    'user' => 'dan',
-                    'method' => 'hey',
                 ],
-                'thread' => [
-                    'patterns' => ["/^?(?'text'.*)/"],
+                'HEY' => [
+                    'patterns' => ["/^(?'text'[^?].*)/"],
+                    'method' => 'thread',
                 ],
             ],
         ]);
