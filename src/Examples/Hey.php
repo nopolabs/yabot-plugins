@@ -16,15 +16,16 @@ class Hey implements PluginInterface
         $this->setLog($logger);
 
         $this->setConfig([
+            'prefix' => 'hey',
             'matchers' => [
                 'hey' => [
-                    'pattern' => "/^(?'hey'hey)\\b/",
+                    'pattern' => "/^(?'text'[^?].*)/",
                     'channel' => 'general',
                     'user' => 'dan',
                     'method' => 'hey',
                 ],
                 'thread' => [
-                    'pattern' => "/^(?'thread'thread)\\b/",
+                    'pattern' => "/^?(?'text'.*)/",
                 ],
             ],
         ]);
@@ -32,12 +33,12 @@ class Hey implements PluginInterface
 
     public function hey(MessageInterface $msg, array $matches)
     {
-        $msg->reply('hey');
+        $msg->reply('hey => '.$matches['text']);
     }
 
     public function thread(MessageInterface $msg, array $matches)
     {
-        $attachments = ['attachments' => json_encode([["text" => "Choose a game to play"]])];
+        $attachments = ['attachments' => json_encode([["text" => $matches['text']]])];
         $msg->thread('thread', $attachments);
     }
 }

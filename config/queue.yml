@@ -6,7 +6,6 @@ services:
     plugin.queue:
         class: Nopolabs\Yabot\Plugins\Queue\QueuePlugin
         arguments:
-            - '@message.dispatcher'
             - '@logger'
             - '@queue'
             - '%plugin.queue.config%'

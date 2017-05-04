@@ -5,7 +5,6 @@ services:
     plugin.lookup:
         class: Nopolabs\Yabot\Plugins\Examples\Lookup
         arguments:
-            - '@message.dispatcher'
             - '@logger'
             - '%plugin.lookup.config%'
         tags:
