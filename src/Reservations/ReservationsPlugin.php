@@ -24,6 +24,20 @@ class ReservationsPlugin implements PluginInterface
         $this->setLog($logger);
         $this->resources = $resources;
 
+        $help = <<<EOS
+        
+    reserve <resource>
+    reserve <resource> until <sometime>
+    reserve <resource> forever
+    release <resource>
+    release mine
+    release all
+    list resources
+    what resources are mine
+    what resources are free
+    is <resource> free
+EOS;
+
         $this->setConfig(array_merge(
             [
                 'resourceNamePlural' => 'resources',
@@ -43,6 +57,7 @@ class ReservationsPlugin implements PluginInterface
 
                     'isFree' => "/^is #resourceCapture# free\\b/",
                 ],
+                'help' => $help,
             ],
             $config
         ));
