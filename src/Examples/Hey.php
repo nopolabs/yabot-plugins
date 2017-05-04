@@ -19,13 +19,13 @@ class Hey implements PluginInterface
             'prefix' => 'hey',
             'matchers' => [
                 'hey' => [
-                    'pattern' => "/^(?'text'[^?].*)/",
+                    'patterns' => ["/^(?'text'[^?].*)/"],
                     'channel' => 'general',
                     'user' => 'dan',
                     'method' => 'hey',
                 ],
                 'thread' => [
-                    'pattern' => "/^?(?'text'.*)/",
+                    'patterns' => ["/^?(?'text'.*)/"],
                 ],
             ],
         ]);
