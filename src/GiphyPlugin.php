@@ -3,13 +3,11 @@
 namespace Nopolabs\Yabot\Plugins;
 
 use GuzzleHttp;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Nopolabs\Yabot\Bot\MessageInterface;
 use Nopolabs\Yabot\Bot\PluginInterface;
 use Nopolabs\Yabot\Bot\PluginTrait;
+use Nopolabs\Yabot\Guzzle\Guzzle;
 use Nopolabs\Yabot\Helpers\GuzzleTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -21,7 +19,7 @@ class GiphyPlugin implements PluginInterface
 
     public function __construct(
         LoggerInterface $logger,
-        Client $guzzle,
+        Guzzle $guzzle,
         array $config = [])
     {
         $this->setLog($logger);
