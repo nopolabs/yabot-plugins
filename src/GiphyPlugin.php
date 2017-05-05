@@ -1,12 +1,17 @@
 <?php
 
+namespace Nopolabs\Yabot\Plugins;
+
+use GuzzleHttp;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Nopolabs\Yabot\Bot\MessageInterface;
 use Nopolabs\Yabot\Bot\PluginInterface;
 use Nopolabs\Yabot\Bot\PluginTrait;
 use Nopolabs\Yabot\Helpers\GuzzleTrait;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 class GiphyPlugin implements PluginInterface
@@ -29,6 +34,13 @@ class GiphyPlugin implements PluginInterface
                 'matchers' => [
                     'search' => '/^(.*)/',
                 ],
+                'async' => true,
+                'api_endpoint' => 'http://api.giphy.com/v1/gifs/search',
+                'parameters' => [
+                    'api_key' => 'dc6zaTOxFJmzC',
+                    'limit' => 1,
+                    'rating' => 'pg-13',
+                ]
             ],
             $config
         ));
@@ -36,17 +48,40 @@ class GiphyPlugin implements PluginInterface
 
     public function search(MessageInterface $msg, array $matches)
     {
-        $term = urlencode($matches[1]);
-        $url = "http://api.giphy.com/v1/gifs/search\\?q\\=$term\\&api_key\\=dc6zaTOxFJmzC";
-        $this->getAsync($url)->then(
-            function(Response $response) use ($msg) {
-                $data = GuzzleHttp\json_decode($response->getBody());
-                // data[0].images.fixed_width_small.url
-                $msg->reply($data[0]->images->fixed_width_small->url);
-            },
-            function(RequestException $e) {
-                $this->getLog()->warning($e->getMessage());
-            }
-        );
+        $config = $this->getConfig();
+
+        $format = $config['format'] ?? 'fixed_width_small';
+
+        $params = $this->getConfig()['parameters'];
+        $params['q'] = $matches[1];
+        $query = http_build_query($params);
+        $endpoint = $config['api_endpoint'];
+        $url = "$endpoint?$query";
+
+        $this->getLog()->info($url);
+
+        $promise = $this->getAsync($url);
+
+        if ($config['async'] ?? false) {
+            $promise->then(
+                function (ResponseInterface $response) use ($msg, $format) {
+                    $this->reply($msg, $format, $response);
+                },
+                function (RequestException $e) {
+                    $this->getLog()->warning($e->getMessage());
+                }
+            );
+        } else {
+            $response = $promise->wait();
+            $this->reply($msg, $format, $response);
+        }
+
+        $msg->setHandled(true);
+    }
+
+    private function reply(MessageInterface $msg, $format, ResponseInterface $response)
+    {
+        $data = GuzzleHttp\json_decode($response->getBody(), true)['data'];
+        $msg->reply($data[0]['images'][$format]['url']);
     }
 }
