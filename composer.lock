@@ -442,12 +442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "80e5b2f3d06ec0fc2ba499f90a83278f263ce3fe"
+                "reference": "73ea56d9d33b52d27a5367c43e00f59e8fc4ed47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/80e5b2f3d06ec0fc2ba499f90a83278f263ce3fe",
-                "reference": "80e5b2f3d06ec0fc2ba499f90a83278f263ce3fe",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/73ea56d9d33b52d27a5367c43e00f59e8fc4ed47",
+                "reference": "73ea56d9d33b52d27a5367c43e00f59e8fc4ed47",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +491,7 @@
                 "source": "https://github.com/nopolabs/yabot/tree/master",
                 "issues": "https://github.com/nopolabs/yabot/issues"
             },
-            "time": "2017-05-05 20:56:16"
+            "time": "2017-05-05 21:01:02"
         },
         {
             "name": "psr/cache",
