@@ -1,4 +1,6 @@
 imports:
+    - { resource: giphy.yml }
+    - { resource: guzzle.yml }
     - { resource: hey.yml }
     - { resource: httpserver.yml }
     - { resource: lookup.yml }
