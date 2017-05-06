@@ -6,6 +6,7 @@ use DateTime;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
+use function GuzzleHttp\Promise\settle;
 use Nopolabs\Yabot\Bot\SlackClient;
 use Nopolabs\Yabot\Helpers\LoopTrait;
 use Nopolabs\Yabot\Helpers\SlackTrait;
@@ -49,7 +50,7 @@ class Resources implements ResourcesInterface
         $resources = $this->load() ?: [];
         $this->resources = [];
         foreach ($config['keys'] as $key) {
-            $resource = isset($resources[$key]) ? $resources[$key] : [];
+            $resource = $resources[$key] ?? [];
             $this->resources[$key] = $resource;
         }
 
@@ -82,7 +83,7 @@ class Resources implements ResourcesInterface
         return array_keys($this->resources);
     }
 
-    public function isReserved($key)
+    public function isReserved($key) : bool
     {
         return !empty($this->resources[$key]);
     }
@@ -106,7 +107,7 @@ class Resources implements ResourcesInterface
         return $this->getStatusAsync($key)->wait();
     }
 
-    public function getAllStatuses()
+    public function getAllStatuses() : array
     {
         $requests = [];
 
@@ -115,7 +116,9 @@ class Resources implements ResourcesInterface
         }
 
         $statuses = [];
-        foreach (Promise\settle($requests)->wait() as $key => $result) {
+        /** @var array $results */
+        $results = settle($requests)->wait();
+        foreach ($results as $key => $result) {
             if ($result['state'] === PromiseInterface::FULFILLED) {
                 $statuses[] = $result['value'];
             }
@@ -141,16 +144,17 @@ class Resources implements ResourcesInterface
         }
     }
 
-    protected function isExpired($key)
+    protected function isExpired($key) : bool
     {
         if ($this->isReserved($key)) {
             $until = $this->getResource($key)['until'];
             if ($until === 'forever') {
                 return false;
-            } else {
-                $expires = new DateTime($until);
-                return $expires < new DateTime();
             }
+            $expires = new DateTime($until);
+            return $expires < new DateTime();
         }
+
+        return true;
     }
 }

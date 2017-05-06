@@ -18,7 +18,7 @@ interface ResourcesInterface
 
     public function getKeys() : array;
 
-    public function isReserved($key);
+    public function isReserved($key) : bool;
 
     public function reserve($key, User $user, DateTime $until = null);
 
@@ -26,5 +26,5 @@ interface ResourcesInterface
 
     public function getStatus($key);
 
-    public function getAllStatuses();
+    public function getAllStatuses() : array;
 }
