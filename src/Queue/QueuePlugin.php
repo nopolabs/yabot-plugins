@@ -25,7 +25,6 @@ class QueuePlugin implements PluginInterface
 
         $this->setConfig(array_merge(
             [
-                'channel' => 'general',
                 'matchers' => [
                     'push' => "/^push\\s+#?(?'item'[0-9]{4,5})\\b/",
                     'next' => '/^next$/',

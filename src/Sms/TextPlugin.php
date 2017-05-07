@@ -40,7 +40,6 @@ class TextPlugin implements PluginInterface
                 'matchers' => [
                     'text' => [
                         'pattern' => "/^text (?'number'\\d{3}-?\\d{3}-?\\d{4})\\b(?'message'.*)$/",
-                        'channel' => 'general',
                         'method' => 'text',
                     ],
                 ],

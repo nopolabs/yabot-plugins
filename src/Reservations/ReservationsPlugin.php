@@ -41,7 +41,6 @@ EOS;
         $this->setConfig(array_merge(
             [
                 'resourceNamePlural' => 'resources',
-                'channel' => 'general',
                 'matchers' => [
                     'reserveForever' => "/^reserve #resourceCapture# forever\\b/",
                     'reserveUntil' => "/^reserve #resourceCapture# until (?'until'.+)/",

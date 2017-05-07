@@ -21,7 +21,6 @@ class Lookup implements PluginInterface
         $this->setConfig(array_merge(
             [
                 'prefix' => 'lookup',
-                'channel' => 'general',
                 'matchers' => [
                     'lookupUser' => "/^<@(?'user'\\w+)>/",
                     'lookupChannel' => "/^<#(?'channel'\\w+)\\|\\w+>/",
