@@ -155,6 +155,6 @@ class Resources implements ResourcesInterface
             return $expires < new DateTime();
         }
 
-        return true;
+        return false;
     }
 }

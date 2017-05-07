@@ -40,6 +40,7 @@ EOS;
 
         $this->setConfig(array_merge(
             [
+                'defaultReservation' => '+12 hours',
                 'resourceNamePlural' => 'resources',
                 'matchers' => [
                     'reserveForever' => "/^reserve #resourceCapture# forever\\b/",
@@ -83,7 +84,7 @@ EOS;
     public function reserve(MessageInterface $msg, array $matches)
     {
         $key = $matches['resource'];
-        $results = $this->placeReservation($msg, $key, new DateTime('+ 12 hours'));
+        $results = $this->placeReservation($msg, $key, $this->getDefaultReservationTime());
         $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
@@ -224,5 +225,12 @@ EOS;
         }
 
         return $results;
+    }
+
+    protected function getDefaultReservationTime() : DateTime
+    {
+        $config = $this->getConfig();
+
+        return new DateTime($config['defaultReservation'] ?? '+12 hours');
     }
 }
