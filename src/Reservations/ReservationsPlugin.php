@@ -43,11 +43,11 @@ EOS;
                 'defaultReservation' => '+12 hours',
                 'resourceNamePlural' => 'resources',
                 'matchers' => [
-                    'reserveForever' => "/^reserve #resourceCapture# forever\\b/",
-                    'reserveUntil' => "/^reserve #resourceCapture# until (?'until'.+)/",
-                    'reserve' => "/^reserve #resourceCapture#/",
+                    'reserveForever' => "/^reserve (?'resource'\\w+) forever\\b/",
+                    'reserveUntil' => "/^reserve (?'resource'\\w+) until (?'until'.+)/",
+                    'reserve' => "/^reserve (\\w+)/",
 
-                    'release' => "/^release #resourceCapture#/",
+                    'release' => "/^release (?'resource'\\w+)/",
                     'releaseMine' => "/^release mine\\b/",
                     'releaseAll' => "/^release all\\b/",
 
@@ -55,7 +55,7 @@ EOS;
                     'listMine' => "/^what #resourceNamePlural# are mine\\b/",
                     'listFree' => "/^what #resourceNamePlural# are free\\b/",
 
-                    'isFree' => "/^is #resourceCapture# free\\b/",
+                    'isFree' => "/^is (?'resource'\\w+) free\\b/",
                 ],
                 'help' => $help,
             ],
@@ -70,10 +70,8 @@ EOS;
 
         $matchers = $this->config['matchers'];
         $resourceNamePlural = $this->config['resourceNamePlural'];
-        $resourceCapture = "(:?\\b(?'resource'".implode('|', $this->resources->getKeys()).")\\b)";
 
         $matchers = $this->replaceInPatterns('#resourceNamePlural#', $resourceNamePlural, $matchers);
-        $matchers = $this->replaceInPatterns('#resourceCapture#', $resourceCapture, $matchers);
         $matchers = $this->replaceInPatterns(' ', "\\s+", $matchers);
 
         $this->config['matchers'] = $matchers;
@@ -232,5 +230,17 @@ EOS;
         $config = $this->getConfig();
 
         return new DateTime($config['defaultReservation'] ?? '+12 hours');
+    }
+
+    protected function validMatch(MessageInterface $message, array $params, array $matches) : bool
+    {
+        if (isset($matches['resource'])) {
+            $key = $matches['resource'];
+            if (!$this->resources->isResource($key)) {
+                $message->reply("'$key' is not a reservable resource");
+                return false;
+            }
+        }
+        return true;
     }
 }
