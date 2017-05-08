@@ -1,12 +1,8 @@
-parameters:
-    plugin.reservations.config: []
-
 services:
     plugin.reservations:
         class: Nopolabs\Yabot\Plugins\Reservations\ReservationsPlugin
         arguments:
             - '@logger'
             - '@reservations.resources'
-            - '%plugin.reservations.config%'
         tags:
             - { name: yabot.plugin }

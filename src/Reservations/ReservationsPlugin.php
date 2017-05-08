@@ -40,6 +40,7 @@ EOS;
 
         $this->setConfig(array_merge(
             [
+                'help' => $help,
                 'defaultReservation' => '+12 hours',
                 'resourceNamePlural' => 'resources',
                 'matchers' => [
@@ -57,26 +58,24 @@ EOS;
 
                     'isFree' => "/^is (?'resource'\\w+) free\\b/",
                 ],
-                'help' => $help,
             ],
             $config
         ));
     }
 
-    public function init(string $pluginId, array $params)
+    protected function overrideConfig(array $params)
     {
-        $this->pluginId = $pluginId;
-        $this->config = $this->canonicalConfig(array_merge($this->config, $params));
+        $config = $this->canonicalConfig(array_merge($this->getConfig(), $params));
 
-        $matchers = $this->config['matchers'];
-        $resourceNamePlural = $this->config['resourceNamePlural'];
+        $matchers = $config['matchers'];
+        $resourceNamePlural = $config['resourceNamePlural'];
 
         $matchers = $this->replaceInPatterns('#resourceNamePlural#', $resourceNamePlural, $matchers);
         $matchers = $this->replaceInPatterns(' ', "\\s+", $matchers);
 
-        $this->config['matchers'] = $matchers;
+        $config['matchers'] = $matchers;
 
-        $this->checkMatchers($this->config['matchers']);
+        $this->setConfig($config);
     }
 
     public function reserve(MessageInterface $msg, array $matches)
