@@ -45,7 +45,7 @@ EOS;
                 'matchers' => [
                     'reserveForever' => "/^reserve (?'resource'\\w+) forever\\b/",
                     'reserveUntil' => "/^reserve (?'resource'\\w+) until (?'until'.+)/",
-                    'reserve' => "/^reserve (\\w+)/",
+                    'reserve' => "/^reserve (?'resource'\\w+)/",
 
                     'release' => "/^release (?'resource'\\w+)/",
                     'releaseMine' => "/^release mine\\b/",

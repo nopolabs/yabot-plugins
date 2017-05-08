@@ -1,17 +1,7 @@
 parameters:
-    plugin.queue.config: []
     queue.config: []
 
 services:
-    plugin.queue:
-        class: Nopolabs\Yabot\Plugins\Queue\QueuePlugin
-        arguments:
-            - '@logger'
-            - '@queue'
-            - '%plugin.queue.config%'
-        tags:
-            - { name: yabot.plugin }
-
     queue:
         class: Nopolabs\Yabot\Plugins\Queue\Queue
         arguments:

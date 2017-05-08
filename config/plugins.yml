@@ -1,8 +1,8 @@
 imports:
-    - { resource: giphy.yml }
-    - { resource: hey.yml }
     - { resource: httpserver.yml }
-    - { resource: lookup.yml }
-    - { resource: queue.yml }
-    - { resource: reservations.yml }
-    - { resource: smstext.yml }
+    - { resource: plugin.giphy.yml }
+    - { resource: plugin.hey.yml }
+    - { resource: plugin.lookup.yml }
+    - { resource: plugin.queue.yml }
+    - { resource: plugin.reservations.yml }
+    - { resource: plugin.smstext.yml }
