@@ -32,7 +32,7 @@ class ReservationsPlugin implements PluginInterface
     release <resource>
     release mine
     release all
-    list resources
+    what resources are reserved
     what resources are mine
     what resources are free
     is <resource> free
@@ -48,11 +48,11 @@ EOS;
                     'reserveUntil' => "/^reserve (?'resource'\\w+) until (?'until'.+)/",
                     'reserve' => "/^reserve (?'resource'\\w+)/",
 
-                    'release' => "/^release (?'resource'\\w+)/",
                     'releaseMine' => "/^release mine\\b/",
                     'releaseAll' => "/^release all\\b/",
+                    'release' => "/^release (?'resource'\\w+)/",
 
-                    'list' => "/^list #resourceNamePlural#\\b/",
+                    'list' => '/^what #resourceNamePlural# are reserved\\b/',
                     'listMine' => "/^what #resourceNamePlural# are mine\\b/",
                     'listFree' => "/^what #resourceNamePlural# are free\\b/",
 
@@ -115,7 +115,7 @@ EOS;
     {
         $results = [];
         foreach ($this->resources->getAll() as $key => $resource) {
-            if ($resource['user'] === $msg->getUsername()) {
+            if (isset($resource['user']) && ($resource['user'] === $msg->getUsername())) {
                 $results = array_merge($results, $this->releaseReservation($msg, $key));
             }
         }
