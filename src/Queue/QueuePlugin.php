@@ -28,7 +28,7 @@ class QueuePlugin implements PluginInterface
     push #PR
     insert #pr index (zero based index defaults to 0)
     next
-    remove #PR
+    rm #PR
     clear
     list
 EOS;
