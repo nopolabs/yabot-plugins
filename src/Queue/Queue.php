@@ -31,6 +31,23 @@ class Queue
         $this->save($this->queue);
     }
 
+    public function insert($element, $index)
+    {
+        $queue = [];
+        $idx = -1;
+        foreach ($this->queue as $idx => $el) {
+            if ($idx === $index) {
+                $queue[] = $element;
+            }
+            $queue[] = $el;
+        }
+        if ($idx < $index) {
+            $queue[] = $element;
+        }
+        $this->queue = $queue;
+        $this->save($this->queue);
+    }
+
     public function next()
     {
         array_shift($this->queue);

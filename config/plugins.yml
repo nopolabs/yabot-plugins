@@ -6,3 +6,4 @@ imports:
     - { resource: plugin.queue.yml }
     - { resource: plugin.reservations.yml }
     - { resource: plugin.smstext.yml }
+    - { resource: queue.yml }

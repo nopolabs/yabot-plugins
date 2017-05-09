@@ -23,10 +23,22 @@ class QueuePlugin implements PluginInterface
         $this->setLog($logger);
         $this->queue = $queue;
 
+        $help = <<<EOS
+        
+    push #PR
+    insert #pr index (zero based index defaults to 0)
+    next
+    remove #PR
+    clear
+    list
+EOS;
+
         $this->setConfig(array_merge(
             [
+                'help' => $help,
                 'matchers' => [
                     'push' => "/^push\\s+#?(?'item'[0-9]{4,5})\\b/",
+                    'insert' => "/^insert\\s+#?(?'item'[0-9]{4,5})(?:\\s+(?'index'\d+))\\b/",
                     'next' => '/^next$/',
                     'remove' => "/^rm #?(?'item'[0-9]{4,5})\\b/",
                     'clear' => '/^clear$/',
@@ -42,6 +54,17 @@ class QueuePlugin implements PluginInterface
         $element = $this->queue->buildElement($msg, $matches);
 
         $this->queue->push($element);
+
+        $this->list($msg);
+    }
+
+    public function insert(MessageInterface $msg, array $matches)
+    {
+        $element = $this->queue->buildElement($msg, $matches);
+
+        $index = (int) $matches['index'] ?? 0;
+
+        $this->queue->insert($element, $index);
 
         $this->list($msg);
     }
