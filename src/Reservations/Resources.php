@@ -42,7 +42,7 @@ class Resources implements ResourcesInterface
         $this->setSlack($slack);
 
         $this->setStorage($storage);
-        $this->setStorageKey(isset($config['storageName']) ? $config['storageName'] : 'resources');
+        $this->setStorageKey($config['storageName'] ?? 'resources');
 
         $this->setLoop($eventLoop);
         $this->addPeriodicTimer(60, [$this, 'expireResources']);
@@ -118,7 +118,7 @@ class Resources implements ResourcesInterface
         $statuses = [];
         /** @var array $results */
         $results = settle($requests)->wait();
-        foreach ($results as $key => $result) {
+        foreach ($results as $result) {
             if ($result['state'] === PromiseInterface::FULFILLED) {
                 $statuses[] = $result['value'];
             }
