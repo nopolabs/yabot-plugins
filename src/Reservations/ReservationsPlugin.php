@@ -88,7 +88,7 @@ EOS;
     public function reserveForever(MessageInterface $msg, array $matches)
     {
         $key = $matches['resource'];
-        $results = $this->placeReservation($msg, $key, 'forever');
+        $results = $this->placeReservation($msg, $key, $this->resources->forever());
         $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }

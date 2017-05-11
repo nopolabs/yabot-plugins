@@ -29,4 +29,6 @@ interface ResourcesInterface
     public function getStatus($key);
 
     public function getAllStatuses() : array;
+
+    public function forever() : DateTime;
 }

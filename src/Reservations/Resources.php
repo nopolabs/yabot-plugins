@@ -145,6 +145,11 @@ class Resources implements ResourcesInterface
         return $statuses;
     }
 
+    public function forever() : DateTime
+    {
+        return new DateTime('3000-01-01');
+    }
+
     protected function getStatusAsync($key) : PromiseInterface
     {
         $status = json_encode([$key => $this->resources[$key]]);
@@ -166,10 +171,8 @@ class Resources implements ResourcesInterface
     {
         if ($this->isReserved($key)) {
             $until = $this->getResource($key)['until'];
-            if ($until === 'forever') {
-                return false;
-            }
             $expires = new DateTime($until);
+
             return $expires < new DateTime();
         }
 
