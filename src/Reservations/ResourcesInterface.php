@@ -20,6 +20,8 @@ interface ResourcesInterface
 
     public function isReserved($key) : bool;
 
+    public function findFreeResource();
+
     public function reserve($key, User $user, DateTime $until = null);
 
     public function release($key);

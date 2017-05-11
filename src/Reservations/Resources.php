@@ -42,7 +42,7 @@ class Resources implements ResourcesInterface
         $this->setSlack($slack);
 
         $this->setStorage($storage);
-        $this->setStorageKey($config['storageName'] ?? 'resources');
+        $this->setStorageKey(isset($config['storageName']) ? $config['storageName'] : 'resources');
 
         $this->setLoop($eventLoop);
         $this->addPeriodicTimer(60, [$this, 'expireResources']);
@@ -88,12 +88,25 @@ class Resources implements ResourcesInterface
         return !empty($this->resources[$key]);
     }
 
+    public function findFreeResource()
+    {
+        foreach ($this->getKeys() as $key) {
+            if (!$this->isReserved($key)) {
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
     public function reserve($key, User $user, DateTime $until = null)
     {
+        $until = $until ?? $this->getDefaultReservationTime();
+
         $this->setResource($key, [
             'user' => $user->getUsername(),
             'userId' => $user->getId(),
-            'until' => $until ? $until->format('Y-m-d H:i:s') : 'forever',
+            'until' => $until->format('Y-m-d H:i:s'),
         ]);
     }
 
@@ -118,7 +131,7 @@ class Resources implements ResourcesInterface
         $statuses = [];
         /** @var array $results */
         $results = settle($requests)->wait();
-        foreach ($results as $result) {
+        foreach ($results as $key => $result) {
             if ($result['state'] === PromiseInterface::FULFILLED) {
                 $statuses[] = $result['value'];
             }
@@ -156,5 +169,12 @@ class Resources implements ResourcesInterface
         }
 
         return false;
+    }
+
+    protected function getDefaultReservationTime() : DateTime
+    {
+        $config = $this->getConfig();
+
+        return new DateTime($config['defaultReservation'] ?? '+12 hours');
     }
 }
