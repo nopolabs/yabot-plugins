@@ -8,6 +8,7 @@ use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use function GuzzleHttp\Promise\settle;
 use Nopolabs\Yabot\Bot\SlackClient;
+use Nopolabs\Yabot\Helpers\ConfigTrait;
 use Nopolabs\Yabot\Helpers\LoopTrait;
 use Nopolabs\Yabot\Helpers\SlackTrait;
 use Nopolabs\Yabot\Helpers\StorageTrait;
@@ -20,6 +21,7 @@ use Slack\User;
  *     'channel' => 'general',
  *     'storageName' => 'resources',
  *     'keys' => ['dev1','dev2'],
+ *     'defaultReservation' => '+12 hours',
  * ];
  */
 class Resources implements ResourcesInterface
@@ -27,6 +29,7 @@ class Resources implements ResourcesInterface
     use StorageTrait;
     use LoopTrait;
     use SlackTrait;
+    use ConfigTrait;
 
     protected $channel;
     protected $resources;
@@ -37,19 +40,21 @@ class Resources implements ResourcesInterface
         LoopInterface $eventLoop,
         array $config)
     {
-        $this->channel = $config['channel'];
+        $this->setConfig($config);
+
+        $this->channel = $this->get('channel');
 
         $this->setSlack($slack);
 
         $this->setStorage($storage);
-        $this->setStorageKey(isset($config['storageName']) ? $config['storageName'] : 'resources');
+        $this->setStorageKey($this->get('storageName', 'resources'));
 
         $this->setLoop($eventLoop);
         $this->addPeriodicTimer(60, [$this, 'expireResources']);
 
         $resources = $this->load() ?: [];
         $this->resources = [];
-        foreach ($config['keys'] as $key) {
+        foreach ($this->get('keys') as $key) {
             $resource = $resources[$key] ?? [];
             $this->resources[$key] = $resource;
         }
@@ -173,8 +178,6 @@ class Resources implements ResourcesInterface
 
     protected function getDefaultReservationTime() : DateTime
     {
-        $config = $this->getConfig();
-
-        return new DateTime($config['defaultReservation'] ?? '+12 hours');
+        return new DateTime($this->get('defaultReservation', '+12 hours'));
     }
 }
