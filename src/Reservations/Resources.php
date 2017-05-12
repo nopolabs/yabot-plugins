@@ -3,7 +3,6 @@
 namespace Nopolabs\Yabot\Plugins\Reservations;
 
 use DateTime;
-use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use function GuzzleHttp\Promise\settle;
@@ -54,7 +53,10 @@ class Resources implements ResourcesInterface
 
         $resources = $this->load() ?: [];
         $this->resources = [];
-        foreach ($this->get('keys') as $key) {
+
+        /** @var array $keys */
+        $keys = $this->get('keys');
+        foreach ($keys as $key) {
             $resource = $resources[$key] ?? [];
             $this->resources[$key] = $resource;
         }

@@ -62,21 +62,6 @@ EOS;
         ));
     }
 
-    protected function overrideConfig(array $params)
-    {
-        $config = $this->canonicalConfig(array_merge($this->getConfig(), $params));
-
-        $matchers = $config['matchers'];
-        $resourceNamePlural = $config['resourceNamePlural'];
-
-        $matchers = $this->replaceInPatterns('#resourceNamePlural#', $resourceNamePlural, $matchers);
-        $matchers = $this->replaceInPatterns(' ', "\\s+", $matchers);
-
-        $config['matchers'] = $matchers;
-
-        $this->setConfig($config);
-    }
-
     public function reserve(MessageInterface $msg, array $matches)
     {
         $key = $matches['resource'];
@@ -97,7 +82,8 @@ EOS;
     {
         $key = $matches['resource'];
         $until = $matches['until'];
-        $results = $this->placeReservation($msg, $key, new DateTime($until));
+        $until = $until === 'forever' ? $this->resources->forever() : new DateTime($until);
+        $results = $this->placeReservation($msg, $key, $until);
         $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
@@ -112,9 +98,10 @@ EOS;
 
     public function releaseMine(MessageInterface $msg, array $matches)
     {
+        $me = $msg->getUsername();
         $results = [];
         foreach ($this->resources->getAll() as $key => $resource) {
-            if (isset($resource['user']) && ($resource['user'] === $msg->getUsername())) {
+            if (isset($resource['user']) && ($resource['user'] === $me)) {
                 $results = array_merge($results, $this->releaseReservation($msg, $key));
             }
         }
@@ -141,9 +128,10 @@ EOS;
 
     public function listMine(MessageInterface $msg, array $matches)
     {
+        $me = $msg->getUsername();
         $results = [];
         foreach ($this->resources->getAll() as $key => $resource) {
-            if ($resource['user'] === $msg->getUsername()) {
+            if ($resource['user'] === $me) {
                 $results[] = $key;
             }
         }
@@ -174,11 +162,26 @@ EOS;
             if (empty($resource)) {
                 $results[] = "$key is free.";
             } else {
-                $results[] = "$key is reserved by {$resource['user']}";
+                $results[] = "$key is reserved by {$resource['user']}.";
             }
         }
         $msg->reply(implode(',', $results));
         $msg->setHandled(true);
+    }
+
+    protected function overrideConfig(array $params)
+    {
+        $config = $this->canonicalConfig(array_merge($this->getConfig(), $params));
+
+        $matchers = $config['matchers'];
+        $resourceNamePlural = $config['resourceNamePlural'];
+
+        $matchers = $this->replaceInPatterns('#resourceNamePlural#', $resourceNamePlural, $matchers);
+        $matchers = $this->replaceInPatterns(' ', "\\s+", $matchers);
+
+        $config['matchers'] = $matchers;
+
+        $this->setConfig($config);
     }
 
     protected function placeReservation(MessageInterface $msg, $key, DateTime $until = null) : array
@@ -189,14 +192,16 @@ EOS;
         if ($resource === null) {
             $results[] = "$key not found.";
         } else {
+            $user = $msg->getUser();
+            $username = $user->getUsername();
             if (empty($resource)) {
-                $this->resources->reserve($key, $msg->getUser(), $until);
-                $results[] = "Reserved $key for {$msg->getUser()->getUsername()}.";
-            } elseif ($resource['user'] === $msg->getUsername()) {
-                $this->resources->reserve($key, $msg->getUser(), $until);
-                $results[] = "Updated $key for {$msg->getUser()->getUsername()}.";
+                $this->resources->reserve($key, $user, $until);
+                $results[] = "Reserved $key for $username.";
+            } elseif ($resource['user'] === $username) {
+                $this->resources->reserve($key, $user, $until);
+                $results[] = "Updated $key for $username.";
             } else {
-                $results[] = "$key is reserved by {$resource['user']}";
+                $results[] = "$key is reserved by {$resource['user']}.";
             }
             $results[] = $this->resources->getStatus($key);
         }
