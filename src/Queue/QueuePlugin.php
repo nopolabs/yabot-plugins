@@ -25,7 +25,7 @@ class QueuePlugin implements PluginInterface
 
         $help = <<<EOS
 push #[pr]
-insert #[pr] index (zero based index defaults to 0)
+insert #[pr] [index]
 next
 rm #[pr]
 clear
@@ -37,7 +37,7 @@ EOS;
                 'help' => $help,
                 'matchers' => [
                     'push' => "/^push\\s+#?(?'item'[0-9]{4,5})\\b/",
-                    'insert' => "/^insert\\s+#?(?'item'[0-9]{4,5})(?:\\s+(?'index'\d+))\\b/",
+                    'insert' => "/^insert\\s+#?(?'item'[0-9]{4,5})(?:\\s+(?'index'\d+))?\\b/",
                     'next' => '/^next$/',
                     'remove' => "/^rm #?(?'item'[0-9]{4,5})\\b/",
                     'clear' => '/^clear$/',
@@ -93,18 +93,12 @@ EOS;
 
     public function list(MessageInterface $msg, array $matches = [])
     {
-        $results = [];
-
         $details = $this->queue->getDetails();
         if (empty($details)) {
-            $results[] = 'The queue is empty.';
-        } else {
-            foreach ($details as $detail) {
-                $results[] = $detail;
-            }
+            $details = ['The queue is empty.'];
         }
 
-        $msg->reply(implode("\n", $results));
+        $msg->reply(implode("\n", $details));
         $msg->setHandled(true);
     }
 }
