@@ -27,6 +27,7 @@ class GiphyPlugin implements PluginInterface
 
         $this->setConfig(array_merge(
             [
+                'help' => '  [search terms]',
                 'prefix' => 'giphy',
                 'matchers' => [
                     'search' => '/^(.*)/',
