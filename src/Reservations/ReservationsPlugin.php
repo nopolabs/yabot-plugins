@@ -25,16 +25,16 @@ class ReservationsPlugin implements PluginInterface
         $this->resources = $resources;
 
         $help = <<<EOS
-  reserve [env]
-  reserve [env] until [time]
-  reserve [env] forever
-  release [env]
-  release mine
-  release all
-  what envs are reserved
-  what envs are mine
-  what envs are free
-  is [resource] free
+reserve [env]
+reserve [env] until [time]
+reserve [env] forever
+release [env]
+release mine
+release all
+what envs are reserved
+what envs are mine
+what envs are free
+is [resource] free
 EOS;
 
         $this->setConfig(array_merge(

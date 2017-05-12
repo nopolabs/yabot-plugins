@@ -24,12 +24,12 @@ class QueuePlugin implements PluginInterface
         $this->queue = $queue;
 
         $help = <<<EOS
-  push #[pr]
-  insert #[pr] index (zero based index defaults to 0)
-  next
-  rm #[pr]
-  clear
-  list
+push #[pr]
+insert #[pr] index (zero based index defaults to 0)
+next
+rm #[pr]
+clear
+list
 EOS;
 
         $this->setConfig(array_merge(

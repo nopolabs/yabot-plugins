@@ -27,7 +27,7 @@ class GiphyPlugin implements PluginInterface
 
         $this->setConfig(array_merge(
             [
-                'help' => '  [search terms]',
+                'help' => '[search terms]',
                 'prefix' => 'giphy',
                 'matchers' => [
                     'search' => '/^(.*)/',
@@ -48,7 +48,12 @@ class GiphyPlugin implements PluginInterface
     {
         $config = $this->getConfig();
 
-        $format = $config['format'] ?? 'fixed_width_small';
+        // Possible formats (not all guaranteed to exist).
+        // fixed_height fixed_height_still fixed_height_downsampled fixed_height_small fixed_height_small_still
+        // fixed_width fixed_width_still fixed_width_downsampled fixed_width_small fixed_width_small_still
+        // downsized downsized_still downsized_large original original_still
+
+        $format = $config['format'] ?? 'fixed_width';
 
         $params = $this->getConfig()['parameters'];
         $params['q'] = $matches[1];
@@ -63,7 +68,8 @@ class GiphyPlugin implements PluginInterface
         if ($config['async'] ?? false) {
             $promise->then(
                 function (ResponseInterface $response) use ($msg, $format) {
-                    $this->reply($msg, $format, $response);
+                    $gif = $this->buildGifUrl($format, $response);
+                    $msg->reply($gif);
                 },
                 function (RequestException $e) {
                     $this->getLog()->warning($e->getMessage());
@@ -71,15 +77,17 @@ class GiphyPlugin implements PluginInterface
             );
         } else {
             $response = $promise->wait();
-            $this->reply($msg, $format, $response);
+            $gif = $this->buildGifUrl($format, $response);
+            $msg->reply($gif);
         }
 
         $msg->setHandled(true);
     }
 
-    private function reply(MessageInterface $msg, $format, ResponseInterface $response)
+    private function buildGifUrl($format, ResponseInterface $response)
     {
         $data = GuzzleHttp\json_decode($response->getBody(), true)['data'];
-        $msg->reply($data[0]['images'][$format]['url']);
+
+        return $data[0]['images'][$format]['url'];
     }
 }

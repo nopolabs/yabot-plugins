@@ -37,7 +37,7 @@ class TextPlugin implements PluginInterface
 
         $this->setConfig(array_merge(
             [
-                'help' => '  text [number] [message]',
+                'help' => 'text [number] [message]',
                 'matchers' => [
                     'text' => [
                         'pattern' => "/^text (?'number'\\d{3}-?\\d{3}-?\\d{4})\\b(?'message'.*)$/",
