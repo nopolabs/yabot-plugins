@@ -74,12 +74,6 @@ class Resources implements ResourcesInterface
         return $this->isResource($key) ? $this->resources[$key] : null;
     }
 
-    public function setResource($key, $resource)
-    {
-        $this->resources[$key] = $resource;
-        $this->save($this->resources);
-    }
-
     public function getAll() : array
     {
         return $this->resources;
@@ -95,10 +89,26 @@ class Resources implements ResourcesInterface
         return !empty($this->resources[$key]);
     }
 
+    public function isReservedBy($key, User $user) : bool
+    {
+        return isset($this->resources[$key]['user']) && $this->resources[$key]['user'] === $user->getUsername();
+    }
+
     public function findFreeResource()
     {
         foreach ($this->getKeys() as $key) {
             if (!$this->isReserved($key)) {
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
+    public function findUserResource(User $user)
+    {
+        foreach ($this->getKeys() as $key) {
+            if ($this->isReservedBy($key, $user)) {
                 return $key;
             }
         }
@@ -150,6 +160,12 @@ class Resources implements ResourcesInterface
     public function forever() : DateTime
     {
         return new DateTime('3000-01-01');
+    }
+
+    protected function setResource($key, $resource)
+    {
+        $this->resources[$key] = $resource;
+        $this->save($this->resources);
     }
 
     protected function getStatusAsync($key) : PromiseInterface

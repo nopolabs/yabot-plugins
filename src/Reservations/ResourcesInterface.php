@@ -12,15 +12,17 @@ interface ResourcesInterface
 
     public function getResource($key);
 
-    public function setResource($key, $resource);
-
     public function getAll() : array;
 
     public function getKeys() : array;
 
     public function isReserved($key) : bool;
 
+    public function isReservedBy($key, User $user) : bool;
+
     public function findFreeResource();
+
+    public function findUserResource(User $user);
 
     public function reserve($key, User $user, DateTime $until = null);
 
