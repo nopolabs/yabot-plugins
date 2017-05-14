@@ -442,12 +442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "6a84591a11b651256561ef7adbbd1d9408636fc4"
+                "reference": "9b1097d0b29d2e44b969bdec2df01493687a95db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/6a84591a11b651256561ef7adbbd1d9408636fc4",
-                "reference": "6a84591a11b651256561ef7adbbd1d9408636fc4",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/9b1097d0b29d2e44b969bdec2df01493687a95db",
+                "reference": "9b1097d0b29d2e44b969bdec2df01493687a95db",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +491,7 @@
                 "source": "https://github.com/nopolabs/yabot/tree/master",
                 "issues": "https://github.com/nopolabs/yabot/issues"
             },
-            "time": "2017-05-14 03:29:59"
+            "time": "2017-05-14 04:29:28"
         },
         {
             "name": "psr/cache",
@@ -2189,12 +2189,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/mock-with-expectations.git",
-                "reference": "745fde09273c22ec4ae43bc49119ad88524c2bbc"
+                "reference": "7ede7cdd07598839069fc6a2017fa45549c40e5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/mock-with-expectations/zipball/745fde09273c22ec4ae43bc49119ad88524c2bbc",
-                "reference": "745fde09273c22ec4ae43bc49119ad88524c2bbc",
+                "url": "https://api.github.com/repos/nopolabs/mock-with-expectations/zipball/7ede7cdd07598839069fc6a2017fa45549c40e5b",
+                "reference": "7ede7cdd07598839069fc6a2017fa45549c40e5b",
                 "shasum": ""
             },
             "require-dev": {
@@ -2217,7 +2217,7 @@
                 }
             ],
             "description": "Helper trait for phpunit testing",
-            "time": "2017-03-13 02:22:40"
+            "time": "2017-05-14 04:23:05"
         },
         {
             "name": "phar-io/manifest",
