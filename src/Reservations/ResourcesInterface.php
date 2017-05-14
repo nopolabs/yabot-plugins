@@ -32,5 +32,9 @@ interface ResourcesInterface
 
     public function getAllStatuses() : array;
 
+    public function getUserStatuses(User $user) : array;
+
+    public function getStatuses(array $keys) : array;
+
     public function forever() : DateTime;
 }

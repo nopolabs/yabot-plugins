@@ -139,9 +139,23 @@ class Resources implements ResourcesInterface
 
     public function getAllStatuses() : array
     {
+        return $this->getStatuses($this->getKeys());
+    }
+
+    public function getUserStatuses(User $user) : array
+    {
+        $userKeys = array_filter($this->getKeys(), function($key) use ($user) {
+            return $this->isReservedBy($key, $user);
+        });
+
+        return $this->getStatuses($userKeys);
+    }
+
+    public function getStatuses(array $keys) : array
+    {
         $requests = [];
 
-        foreach ($this->getKeys() as $key) {
+        foreach ($keys as $key) {
             $requests[] = $this->getStatusAsync($key);
         }
 
