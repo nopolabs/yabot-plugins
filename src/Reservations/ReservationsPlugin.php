@@ -34,7 +34,7 @@ release all
 what envs are reserved
 what envs are mine
 what envs are free
-is [resource] free
+is [env] free
 EOS;
 
         $this->setConfig(array_merge(
