@@ -2,7 +2,7 @@
 
 This is a collection of plugins for [yabot](https://github.com/nopolabs/yabot)
 
-[nopolabs/yabot-plugins](https://travis-ci.org/nopolabs/yabot-plugins) Travis CI builds.
+[![Build Status](https://travis-ci.org/nopolabs/yabot-plugins.svg?branch=master)](https://travis-ci.org/nopolabs/yabot-plugins)
 
 ## Getting Started
 
