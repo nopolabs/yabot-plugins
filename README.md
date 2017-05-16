@@ -3,6 +3,7 @@
 This is a collection of plugins for [yabot](https://github.com/nopolabs/yabot)
 
 [![Build Status](https://travis-ci.org/nopolabs/yabot-plugins.svg?branch=master)](https://travis-ci.org/nopolabs/yabot-plugins)
+[![License](https://poser.pugx.org/nopolabs/yabot-plugins/license)](https://packagist.org/packages/nopolabs/yabot-plugins)
 
 ## Getting Started
 
