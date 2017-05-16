@@ -2,6 +2,8 @@
 
 This is a collection of plugins for [yabot](https://github.com/nopolabs/yabot)
 
+[nopolabs/yabot-plugins](https://travis-ci.org/nopolabs/yabot-plugins) Travis CI builds.
+
 ## Getting Started
 
 Initialize a yabot project using the yabot 
