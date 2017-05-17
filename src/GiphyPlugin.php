@@ -27,18 +27,22 @@ class GiphyPlugin implements PluginInterface
 
         $this->setConfig(array_merge(
             [
-                'help' => '[search terms]',
+                'help' => '[search terms] [optional format] (giphy formats to list available)',
                 'prefix' => 'giphy',
                 'matchers' => [
                     'search' => '/^(.*)/',
                 ],
-                'async' => true,
                 'api_endpoint' => 'http://api.giphy.com/v1/gifs/search',
                 'parameters' => [
                     'api_key' => 'dc6zaTOxFJmzC',
                     'limit' => 1,
                     'rating' => 'pg-13',
-                ]
+                ],
+                'formats' => [
+                    'fixed_height', 'fixed_height_still', 'fixed_height_downsampled', 'fixed_height_small', 'fixed_height_small_still',
+                    'fixed_width', 'fixed_width_still', 'fixed_width_downsampled', 'fixed_width_small', 'fixed_width_small_still',
+                    'downsized', 'downsized_still', 'downsized_large', 'original', 'original_still',
+                ],
             ],
             $config
         ));
@@ -48,43 +52,47 @@ class GiphyPlugin implements PluginInterface
     {
         $config = $this->getConfig();
 
-        // Possible formats (not all guaranteed to exist).
-        // fixed_height fixed_height_still fixed_height_downsampled fixed_height_small fixed_height_small_still
-        // fixed_width fixed_width_still fixed_width_downsampled fixed_width_small fixed_width_small_still
-        // downsized downsized_still downsized_large original original_still
+        $formats = $config['formats'] ?? ['fixed_width'];
 
-        $format = $config['format'] ?? 'fixed_width';
+        if (trim($matches[1]) === 'formats') {
+            $msg->reply('Available formats: '.implode(' ', $formats));
+        } else {
+            $terms = preg_split('/\s+/', $matches[1]);
+            $search = [];
+            $format = $config['format'] ?? 'fixed_width';
+            foreach ($terms as $term) {
+                if (in_array($term, $formats)) {
+                    $format = $term;
+                } else {
+                    $search[] = $term;
+                }
+            }
 
-        $params = $this->getConfig()['parameters'];
-        $params['q'] = $matches[1];
-        $query = http_build_query($params);
-        $endpoint = $config['api_endpoint'];
-        $url = "$endpoint?$query";
+            $params = $this->getConfig()['parameters'];
+            $params['q'] = implode(' ', $search);
+            $query = http_build_query($params);
+            $endpoint = $config['api_endpoint'];
+            $url = "$endpoint?$query";
 
-        $this->getLog()->info($url);
+            $this->getLog()->info($url);
 
-        $promise = $this->getAsync($url);
+            $promise = $this->getAsync($url);
 
-        if ($config['async'] ?? false) {
             $promise->then(
                 function (ResponseInterface $response) use ($msg, $format) {
-                    $gif = $this->buildGifUrl($format, $response);
-                    $msg->reply($gif);
+                    $gifUrl = $this->extractGifUrl($format, $response);
+                    $msg->reply($gifUrl);
                 },
                 function (RequestException $e) {
                     $this->getLog()->warning($e->getMessage());
                 }
             );
-        } else {
-            $response = $promise->wait();
-            $gif = $this->buildGifUrl($format, $response);
-            $msg->reply($gif);
         }
 
         $msg->setHandled(true);
     }
 
-    private function buildGifUrl($format, ResponseInterface $response)
+    private function extractGifUrl($format, ResponseInterface $response)
     {
         $data = GuzzleHttp\json_decode($response->getBody(), true)['data'];
 
