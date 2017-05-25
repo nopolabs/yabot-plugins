@@ -130,7 +130,7 @@ EOS;
         $me = $msg->getUsername();
         $results = [];
         foreach ($this->resources->getAll() as $key => $resource) {
-            if ($resource['user'] === $me) {
+            if (isset($resource['user']) && ($resource['user'] === $me)) {
                 $results[] = $key;
             }
         }
