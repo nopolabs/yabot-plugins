@@ -50,9 +50,9 @@ EOS;
                     'releaseAll' => "/^release all\\b/",
                     'release' => "/^release (?'resource'\\w+)/",
 
-                    'list' => '/^what #resourceNamePlural# are reserved\\b/',
-                    'listMine' => "/^what #resourceNamePlural# are mine\\b/",
-                    'listFree' => "/^what #resourceNamePlural# are free\\b/",
+                    'list' => '/^wh(?:at|ich) #resourceNamePlural# are reserved\\b/',
+                    'listMine' => "/^wh(?:at|ich) #resourceNamePlural# are mine\\b/",
+                    'listFree' => "/^wh(?:at|ich) #resourceNamePlural# are free\\b/",
 
                     'isFree' => "/^is (?'resource'\\w+) free\\b/",
                 ],
