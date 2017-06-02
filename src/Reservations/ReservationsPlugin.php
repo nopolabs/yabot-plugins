@@ -3,10 +3,9 @@
 namespace Nopolabs\Yabot\Plugins\Reservations;
 
 use DateTime;
-use Nopolabs\Yabot\Bot\MessageDispatcher;
-use Nopolabs\Yabot\Bot\MessageInterface;
-use Nopolabs\Yabot\Bot\PluginInterface;
-use Nopolabs\Yabot\Bot\PluginTrait;
+use Nopolabs\Yabot\Message\Message;
+use Nopolabs\Yabot\Plugin\PluginInterface;
+use Nopolabs\Yabot\Plugin\PluginTrait;
 use Psr\Log\LoggerInterface;
 
 class ReservationsPlugin implements PluginInterface
@@ -25,16 +24,16 @@ class ReservationsPlugin implements PluginInterface
         $this->resources = $resources;
 
         $help = <<<EOS
-reserve [env]
-reserve [env] until [time]
-reserve [env] forever
-release [env]
-release mine
-release all
-what envs are reserved
-what envs are mine
-what envs are free
-is [env] free
+<prefix> reserve [env]
+<prefix> reserve [env] until [time]
+<prefix> reserve [env] forever
+<prefix> release [env]
+<prefix> release mine
+<prefix> release all
+<prefix> (what|which) envs are reserved
+<prefix> (what|which) envs are mine
+<prefix> (what|which) envs are free
+<prefix> is [env] free
 EOS;
 
         $this->setConfig(array_merge(
@@ -61,7 +60,7 @@ EOS;
         ));
     }
 
-    public function reserve(MessageInterface $msg, array $matches)
+    public function reserve(Message $msg, array $matches)
     {
         $key = $matches['resource'];
         $results = $this->placeReservation($msg, $key);
@@ -69,7 +68,7 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function reserveForever(MessageInterface $msg, array $matches)
+    public function reserveForever(Message $msg, array $matches)
     {
         $key = $matches['resource'];
         $results = $this->placeReservation($msg, $key, $this->resources->forever());
@@ -77,7 +76,7 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function reserveUntil(MessageInterface $msg, array $matches)
+    public function reserveUntil(Message $msg, array $matches)
     {
         $key = $matches['resource'];
         $until = $matches['until'];
@@ -87,7 +86,7 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function release(MessageInterface $msg, array $matches)
+    public function release(Message $msg, array $matches)
     {
         $key = $matches['resource'];
         $results = $this->releaseReservation($msg, $key);
@@ -95,7 +94,7 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function releaseMine(MessageInterface $msg, array $matches)
+    public function releaseMine(Message $msg, array $matches)
     {
         $me = $msg->getUsername();
         $results = [];
@@ -108,7 +107,7 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function releaseAll(MessageInterface $msg, array $matches)
+    public function releaseAll(Message $msg, array $matches)
     {
         $results = [];
         foreach ($this->resources->getKeys() as $key) {
@@ -118,14 +117,14 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function list(MessageInterface $msg, array $matches)
+    public function list(Message $msg, array $matches)
     {
         $results = $this->resources->getAllStatuses();
         $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
 
-    public function listMine(MessageInterface $msg, array $matches)
+    public function listMine(Message $msg, array $matches)
     {
         $me = $msg->getUsername();
         $results = [];
@@ -138,7 +137,7 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function listFree(MessageInterface $msg, array $matches)
+    public function listFree(Message $msg, array $matches)
     {
         $results = [];
         foreach ($this->resources->getAll() as $key => $resource) {
@@ -150,7 +149,7 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function isFree(MessageInterface $msg, array $matches)
+    public function isFree(Message $msg, array $matches)
     {
         $results = [];
         $key = $matches['resource'];
@@ -183,7 +182,7 @@ EOS;
         $this->setConfig($config);
     }
 
-    protected function placeReservation(MessageInterface $msg, $key, DateTime $until = null) : array
+    protected function placeReservation(Message $msg, $key, DateTime $until = null) : array
     {
         $results = [];
         $resource = $this->resources->getResource($key);
@@ -208,7 +207,7 @@ EOS;
         return $results;
     }
 
-    protected function releaseReservation(MessageInterface $msg, $key) : array
+    protected function releaseReservation(Message $msg, $key) : array
     {
         $results = [];
         $resource = $this->resources->getResource($key);
@@ -227,7 +226,7 @@ EOS;
         return $results;
     }
 
-    protected function validMatch(MessageInterface $message, array $params, array $matches) : bool
+    protected function validMatch(Message $message, array $params, array $matches) : bool
     {
         if (isset($matches['resource'])) {
             $key = $matches['resource'];

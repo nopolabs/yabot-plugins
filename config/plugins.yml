@@ -1,4 +1,6 @@
 imports:
+    - { resource: '../vendor/nopolabs/yabot/config/plugin.help.yml' }
+    - { resource: '../vendor/nopolabs/yabot/config/plugin.status.yml' }
     - { resource: httpserver.yml }
     - { resource: plugin.giphy.yml }
     - { resource: plugin.hey.yml }
@@ -7,3 +9,4 @@ imports:
     - { resource: plugin.reservations.yml }
     - { resource: plugin.smstext.yml }
     - { resource: queue.yml }
+    - { resource: reservations.resources.yml }

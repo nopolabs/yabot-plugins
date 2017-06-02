@@ -3,7 +3,7 @@
 namespace Nopolabs\Yabot\Plugins\Tests\Queue;
 
 use Nopolabs\Test\MockWithExpectationsTrait;
-use Nopolabs\Yabot\Bot\Message;
+use Nopolabs\Yabot\Message\Message;
 use Nopolabs\Yabot\Plugins\Queue\Queue;
 use Nopolabs\Yabot\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;

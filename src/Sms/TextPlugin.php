@@ -4,10 +4,10 @@ namespace Nopolabs\Yabot\Plugins\Sms;
 
 use React\Http\Request as HttpRequest;
 use React\Http\Response as HttpResponse;
-use Nopolabs\Yabot\Bot\MessageInterface;
-use Nopolabs\Yabot\Bot\PluginInterface;
-use Nopolabs\Yabot\Bot\PluginTrait;
-use Nopolabs\Yabot\Bot\SlackClient;
+use Nopolabs\Yabot\Message\Message;
+use Nopolabs\Yabot\Plugin\PluginInterface;
+use Nopolabs\Yabot\Plugin\PluginTrait;
+use Nopolabs\Yabot\Slack\Client;
 use Nopolabs\Yabot\Helpers\SlackTrait;
 use Nopolabs\Yabot\Http\HttpServer;
 use Psr\Log\LoggerInterface;
@@ -24,7 +24,7 @@ class TextPlugin implements PluginInterface
 
     public function __construct(
         LoggerInterface $logger,
-        SlackClient $slack,
+        Client $slack,
         HttpServer $http,
         TextClient $textClient,
         array $config)
@@ -37,7 +37,7 @@ class TextPlugin implements PluginInterface
 
         $this->setConfig(array_merge(
             [
-                'help' => 'text [number] [message]',
+                'help' => '<prefix> text [number] [message]',
                 'matchers' => [
                     'text' => [
                         'pattern' => "/^text (?'number'\\d{3}-?\\d{3}-?\\d{4})\\b(?'message'.*)$/",
@@ -49,7 +49,7 @@ class TextPlugin implements PluginInterface
         ));
     }
 
-    public function text(MessageInterface $msg, array $matches)
+    public function text(Message $msg, array $matches)
     {
         $to = '+1'.str_replace('-', '', $matches['number']);
         $message = $matches['message'];

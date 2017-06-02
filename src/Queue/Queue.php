@@ -3,11 +3,9 @@
 namespace Nopolabs\Yabot\Plugins\Queue;
 
 
-use Nopolabs\Yabot\Bot\Message;
-use Nopolabs\Yabot\Bot\MessageInterface;
+use Nopolabs\Yabot\Message\Message;
 use Nopolabs\Yabot\Helpers\StorageTrait;
 use Nopolabs\Yabot\Storage\StorageInterface;
-use Nopolabs\Yabot\Yabot;
 
 class Queue
 {
@@ -72,7 +70,7 @@ class Queue
         $this->save($this->queue);
     }
 
-    public function buildElement(MessageInterface $msg, array $matches)
+    public function buildElement(Message $msg, array $matches)
     {
         return [
             'user' => $msg->getUsername(),

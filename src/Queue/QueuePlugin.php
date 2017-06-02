@@ -2,10 +2,9 @@
 
 namespace Nopolabs\Yabot\Plugins\Queue;
 
-use Nopolabs\Yabot\Bot\MessageDispatcher;
-use Nopolabs\Yabot\Bot\MessageInterface;
-use Nopolabs\Yabot\Bot\PluginInterface;
-use Nopolabs\Yabot\Bot\PluginTrait;
+use Nopolabs\Yabot\Message\Message;
+use Nopolabs\Yabot\Plugin\PluginInterface;
+use Nopolabs\Yabot\Plugin\PluginTrait;
 use Psr\Log\LoggerInterface;
 
 class QueuePlugin implements PluginInterface
@@ -24,12 +23,12 @@ class QueuePlugin implements PluginInterface
         $this->queue = $queue;
 
         $help = <<<EOS
-push #[pr]
-insert #[pr] [index]
-next
-rm #[pr]
-clear
-list
+<prefix> push #[pr]
+<prefix> insert #[pr] [index]
+<prefix> next
+<prefix> rm #[pr]
+<prefix> clear
+<prefix> list
 EOS;
 
         $this->setConfig(array_merge(
@@ -48,7 +47,7 @@ EOS;
         ));
     }
 
-    public function push(MessageInterface $msg, array $matches)
+    public function push(Message $msg, array $matches)
     {
         $element = $this->queue->buildElement($msg, $matches);
 
@@ -57,7 +56,7 @@ EOS;
         $this->list($msg);
     }
 
-    public function insert(MessageInterface $msg, array $matches)
+    public function insert(Message $msg, array $matches)
     {
         $element = $this->queue->buildElement($msg, $matches);
 
@@ -68,14 +67,14 @@ EOS;
         $this->list($msg);
     }
 
-    public function next(MessageInterface $msg, array $matches)
+    public function next(Message $msg, array $matches)
     {
         $this->queue->next();
 
         $this->list($msg);
     }
 
-    public function remove(MessageInterface $msg, array $matches)
+    public function remove(Message $msg, array $matches)
     {
         $element = $this->queue->buildElement($msg, $matches);
 
@@ -84,14 +83,14 @@ EOS;
         $this->list($msg);
     }
 
-    public function clear(MessageInterface $msg, array $matches)
+    public function clear(Message $msg, array $matches)
     {
         $this->queue->clear();
 
         $this->list($msg);
     }
 
-    public function list(MessageInterface $msg, array $matches = [])
+    public function list(Message $msg, array $matches = [])
     {
         $details = $this->queue->getDetails();
         if (empty($details)) {
