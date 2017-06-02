@@ -6,7 +6,7 @@ use DateTime;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use function GuzzleHttp\Promise\settle;
-use Nopolabs\Yabot\Bot\SlackClient;
+use Nopolabs\Yabot\Slack\Client;
 use Nopolabs\Yabot\Helpers\ConfigTrait;
 use Nopolabs\Yabot\Helpers\LoopTrait;
 use Nopolabs\Yabot\Helpers\SlackTrait;
@@ -34,14 +34,12 @@ class Resources implements ResourcesInterface
     protected $resources;
 
     public function __construct(
-        SlackClient $slack,
+        Client $slack,
         StorageInterface $storage,
         LoopInterface $eventLoop,
         array $config)
     {
         $this->setConfig($config);
-
-        $this->channel = $this->get('channel');
 
         $this->setSlack($slack);
 
@@ -50,6 +48,8 @@ class Resources implements ResourcesInterface
 
         $this->setLoop($eventLoop);
         $this->addPeriodicTimer(60, [$this, 'expireResources']);
+
+        $this->channel = $this->get('channel');
 
         $resources = $this->load() ?: [];
         $this->resources = [];

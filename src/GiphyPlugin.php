@@ -4,9 +4,9 @@ namespace Nopolabs\Yabot\Plugins;
 
 use GuzzleHttp;
 use GuzzleHttp\Exception\RequestException;
-use Nopolabs\Yabot\Bot\MessageInterface;
-use Nopolabs\Yabot\Bot\PluginInterface;
-use Nopolabs\Yabot\Bot\PluginTrait;
+use Nopolabs\Yabot\Message\Message;
+use Nopolabs\Yabot\Plugin\PluginInterface;
+use Nopolabs\Yabot\Plugin\PluginTrait;
 use Nopolabs\Yabot\Guzzle\Guzzle;
 use Nopolabs\Yabot\Helpers\GuzzleTrait;
 use Psr\Http\Message\ResponseInterface;
@@ -27,7 +27,7 @@ class GiphyPlugin implements PluginInterface
 
         $this->setConfig(array_merge(
             [
-                'help' => '[search terms] [optional format] (giphy formats to list available)',
+                'help' => '<prefix> [search terms] [optional format] (giphy formats to list available)',
                 'prefix' => 'giphy',
                 'matchers' => [
                     'search' => '/^(.*)/',
@@ -48,7 +48,7 @@ class GiphyPlugin implements PluginInterface
         ));
     }
 
-    public function search(MessageInterface $msg, array $matches)
+    public function search(Message $msg, array $matches)
     {
         $config = $this->getConfig();
 

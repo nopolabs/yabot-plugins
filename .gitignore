@@ -1,4 +1,5 @@
 config.php
+yabot.php
 /storage/
 /logs/
 /vendor/

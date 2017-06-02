@@ -1,6 +1,6 @@
 services:
     http.server:
-        class: Nopolabs\Yabot\Plugins\Http\HttpServer
+        class: Nopolabs\Yabot\Http\HttpServer
         arguments:
             - '13337'
             - '@event.loop'

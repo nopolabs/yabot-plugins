@@ -2,10 +2,9 @@
 
 namespace Nopolabs\Yabot\Plugins\Examples;
 
-use Nopolabs\Yabot\Bot\MessageDispatcher;
-use Nopolabs\Yabot\Bot\MessageInterface;
-use Nopolabs\Yabot\Bot\PluginInterface;
-use Nopolabs\Yabot\Bot\PluginTrait;
+use Nopolabs\Yabot\Message\Message;
+use Nopolabs\Yabot\Plugin\PluginInterface;
+use Nopolabs\Yabot\Plugin\PluginTrait;
 use Psr\Log\LoggerInterface;
 
 class Lookup implements PluginInterface
@@ -30,12 +29,12 @@ class Lookup implements PluginInterface
         ));
     }
 
-    public function lookupUser(MessageInterface $msg, array $matches)
+    public function lookupUser(Message $msg, array $matches)
     {
         $msg->reply('user: '.$matches['user']);
     }
 
-    public function lookupChannel(MessageInterface $msg, array $matches)
+    public function lookupChannel(Message $msg, array $matches)
     {
         $msg->reply('channel: '.$matches['channel']);
     }

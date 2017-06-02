@@ -5,7 +5,7 @@ namespace Nopolabs\Yabot\Plugins\Tests\Reservations;
 
 use DateTime;
 use Nopolabs\Test\MockWithExpectationsTrait;
-use Nopolabs\Yabot\Bot\SlackClient;
+use Nopolabs\Yabot\Slack\Client;
 use Nopolabs\Yabot\Plugins\Reservations\Resources;
 use Nopolabs\Yabot\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,7 @@ class ResourcesTest extends TestCase
 
     protected function setUp()
     {
-        $this->slackClient = $this->createMock(SlackClient::class);
+        $this->slackClient = $this->createMock(Client::class);
         $this->storage = $this->createMock(StorageInterface::class);
         $this->eventLoop = $this->createMock(LoopInterface::class);
         $this->user1 = $this->newPartialMockWithExpectations(User::class, [

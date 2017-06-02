@@ -2,9 +2,9 @@
 
 namespace Nopolabs\Yabot\Plugins\Examples;
 
-use Nopolabs\Yabot\Bot\MessageInterface;
-use Nopolabs\Yabot\Bot\PluginInterface;
-use Nopolabs\Yabot\Bot\PluginTrait;
+use Nopolabs\Yabot\Message\Message;
+use Nopolabs\Yabot\Plugin\PluginInterface;
+use Nopolabs\Yabot\Plugin\PluginTrait;
 use Psr\Log\LoggerInterface;
 
 class Hey implements PluginInterface
@@ -29,13 +29,13 @@ class Hey implements PluginInterface
         ]);
     }
 
-    public function hey(MessageInterface $msg, array $matches)
+    public function hey(Message $msg, array $matches)
     {
         $msg->reply('hey => '.$matches['text']);
         $msg->setHandled(true);
     }
 
-    public function thread(MessageInterface $msg, array $matches)
+    public function thread(Message $msg, array $matches)
     {
         $attachments = ['attachments' => json_encode([["text" => $matches['text']]])];
         $msg->thread('thread', $attachments);

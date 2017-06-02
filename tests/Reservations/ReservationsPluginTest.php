@@ -4,7 +4,7 @@ namespace Nopolabs\Yabot\Plugins\Tests\Reservations;
 
 use DateTime;
 use Nopolabs\Test\MockWithExpectationsTrait;
-use Nopolabs\Yabot\Bot\MessageInterface;
+use Nopolabs\Yabot\Message\Message;
 use Nopolabs\Yabot\Plugins\Reservations\ReservationsPlugin;
 use Nopolabs\Yabot\Plugins\Reservations\ResourcesInterface;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +29,7 @@ class ReservationsPluginTest extends TestCase
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->resources = $this->createMock(ResourcesInterface::class);
-        $this->message = $this->createMock(MessageInterface::class);
+        $this->message = $this->createMock(Message::class);
         $this->user = $this->createMock(User::class);
         $this->differentUser = $this->createMock(User::class);
         $this->forever = new DateTime('3000-01-01');
