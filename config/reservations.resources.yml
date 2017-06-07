@@ -8,4 +8,5 @@ services:
             - '@slack.client'
             - '@storage'
             - '@event.loop'
+            - '@logger'
             - '%reservations.resources.config%'

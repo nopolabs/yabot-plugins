@@ -9,6 +9,7 @@ use Nopolabs\Yabot\Slack\Client;
 use Nopolabs\Yabot\Plugins\Reservations\Resources;
 use Nopolabs\Yabot\Storage\StorageInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use React\EventLoop\LoopInterface;
 use Slack\User;
 
@@ -19,6 +20,7 @@ class ResourcesTest extends TestCase
     private $slackClient;
     private $storage;
     private $eventLoop;
+    private $logger;
     private $user1;
     private $user2;
     private $userX;
@@ -31,6 +33,7 @@ class ResourcesTest extends TestCase
         $this->slackClient = $this->createMock(Client::class);
         $this->storage = $this->createMock(StorageInterface::class);
         $this->eventLoop = $this->createMock(LoopInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
         $this->user1 = $this->newPartialMockWithExpectations(User::class, [
             'getId' => ['invoked' => 'any', 'result' => 'U00000001'],
             'getUsername' => ['invoked' => 'any', 'result' => 'user1'],
@@ -48,6 +51,7 @@ class ResourcesTest extends TestCase
             $this->slackClient,
             $this->storage,
             $this->eventLoop,
+            $this->logger,
             [
                 'keys' => ['dev1', 'dev2', 'dev3'],
             ]

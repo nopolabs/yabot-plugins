@@ -6,12 +6,14 @@ use DateTime;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use function GuzzleHttp\Promise\settle;
+use Nopolabs\Yabot\Helpers\LogTrait;
 use Nopolabs\Yabot\Slack\Client;
 use Nopolabs\Yabot\Helpers\ConfigTrait;
 use Nopolabs\Yabot\Helpers\LoopTrait;
 use Nopolabs\Yabot\Helpers\SlackTrait;
 use Nopolabs\Yabot\Helpers\StorageTrait;
 use Nopolabs\Yabot\Storage\StorageInterface;
+use Psr\Log\LoggerInterface;
 use React\EventLoop\LoopInterface;
 use Slack\User;
 
@@ -29,6 +31,7 @@ class Resources implements ResourcesInterface
     use LoopTrait;
     use SlackTrait;
     use ConfigTrait;
+    use LogTrait;
 
     protected $channel;
     protected $resources;
@@ -37,9 +40,11 @@ class Resources implements ResourcesInterface
         Client $slack,
         StorageInterface $storage,
         LoopInterface $eventLoop,
+        LoggerInterface $logger,
         array $config)
     {
         $this->setConfig($config);
+        $this->setLog($logger);
 
         $this->setSlack($slack);
 
