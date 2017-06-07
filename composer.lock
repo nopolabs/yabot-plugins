@@ -442,19 +442,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "95b7c363c6c5be01a0af23573ad02ddeab5e1e49"
+                "reference": "d30d8a918cbbc96001445460a80bd3cef4b70ea0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/95b7c363c6c5be01a0af23573ad02ddeab5e1e49",
-                "reference": "95b7c363c6c5be01a0af23573ad02ddeab5e1e49",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/d30d8a918cbbc96001445460a80bd3cef4b70ea0",
+                "reference": "d30d8a918cbbc96001445460a80bd3cef4b70ea0",
                 "shasum": ""
             },
             "require": {
                 "coderstephen/slack-client": "dev-master",
                 "guzzlehttp/guzzle": "^6.2",
                 "monolog/monolog": "~1.13",
-                "php": ">=5.5.0",
+                "php": ">=7.0",
                 "react/http": "^0.6",
                 "roave/security-advisories": "dev-master",
                 "symfony/config": "^3.2",
@@ -492,7 +492,7 @@
                 "source": "https://github.com/nopolabs/yabot/tree/master",
                 "issues": "https://github.com/nopolabs/yabot/issues"
             },
-            "time": "2017-06-02 15:06:56"
+            "time": "2017-06-07 02:33:43"
         },
         {
             "name": "psr/cache",
