@@ -45,15 +45,6 @@ class GiphyService
         ));
     }
 
-    public function reject()
-    {
-        $promise = new RejectedPromise(new Exception('rejected'));
-
-        $this->getGuzzle()->scheduleProcessing();
-
-        return $promise;
-    }
-
     public function search(string $query, string $format = 'fixed_width') : PromiseInterface
     {
         $endpoint = $this->get('api_endpoint');

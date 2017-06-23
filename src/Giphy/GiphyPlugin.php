@@ -31,26 +31,11 @@ class GiphyPlugin implements PluginInterface
                 'help' => '<prefix> [search terms] [optional format] (giphy formats to list available)',
                 'prefix' => 'giphy',
                 'matchers' => [
-                    'reject' => '/^reject\b/',
                     'search' => '/^(.*)/',
                 ],
             ],
             $config
         ));
-    }
-
-    public function reject(Message $msg, array $matches)
-    {
-        $this->giphyService->reject()->then(
-            function () use ($msg) {
-                $msg->reply('unexpected');
-            },
-            function (Exception $e) {
-                $this->getLog()->warning($e->getMessage());
-            }
-        );
-
-        $msg->setHandled(true);
     }
 
     public function search(Message $msg, array $matches)
