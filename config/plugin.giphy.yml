@@ -1,8 +1,14 @@
 services:
     plugin.giphy:
-        class: Nopolabs\Yabot\Plugins\GiphyPlugin
+        class: Nopolabs\Yabot\Plugins\Giphy\GiphyPlugin
+        arguments:
+            - '@logger'
+            - '@giphy.service'
+        tags:
+            - { name: yabot.plugin }
+
+    giphy.service:
+        class: Nopolabs\Yabot\Plugins\Giphy\GiphyService
         arguments:
             - '@logger'
             - '@guzzle'
-        tags:
-            - { name: yabot.plugin }

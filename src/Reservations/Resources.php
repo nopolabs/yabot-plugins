@@ -60,7 +60,7 @@ class Resources implements ResourcesInterface
         $this->resources = [];
 
         /** @var array $keys */
-        $keys = $this->get('keys');
+        $keys = $this->get('keys', []);
         foreach ($keys as $key) {
             $resource = $resources[$key] ?? [];
             $this->resources[$key] = $resource;
