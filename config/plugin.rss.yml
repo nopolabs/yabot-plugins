@@ -1,0 +1,14 @@
+services:
+    plugin.rss:
+        class: Nopolabs\Yabot\Plugins\Rss\RssPlugin
+        arguments:
+            - '@logger'
+            - '@rss.service'
+        tags:
+            - { name: yabot.plugin }
+
+    rss.service:
+        class: Nopolabs\Yabot\Plugins\Rss\RssService
+        arguments:
+            - '@logger'
+            - '@guzzle'

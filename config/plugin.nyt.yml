@@ -1,0 +1,9 @@
+services:
+    plugin.nyt:
+        class: Nopolabs\Yabot\Plugins\Examples\NytPlugin
+        arguments:
+            - '@logger'
+            - '@rss.service'
+            - '@giphy.service'
+        tags:
+            - { name: yabot.plugin }

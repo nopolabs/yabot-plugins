@@ -2,11 +2,8 @@
 
 namespace Nopolabs\Yabot\Plugins\Giphy;
 
-
-use Exception;
 use GuzzleHttp;
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Promise\RejectedPromise;
 use Nopolabs\Yabot\Guzzle\Guzzle;
 use Nopolabs\Yabot\Helpers\ConfigTrait;
 use Nopolabs\Yabot\Helpers\GuzzleTrait;

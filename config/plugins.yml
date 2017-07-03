@@ -3,6 +3,8 @@ imports:
     - { resource: '../vendor/nopolabs/yabot/config/plugin.status.yml' }
 #    - { resource: httpserver.yml }
     - { resource: plugin.giphy.yml }
+    - { resource: plugin.rss.yml }
+    - { resource: plugin.nyt.yml }
 #    - { resource: plugin.hey.yml }
 #    - { resource: plugin.lookup.yml }
 #    - { resource: plugin.queue.yml }
