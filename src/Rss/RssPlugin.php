@@ -36,7 +36,6 @@ class RssPlugin implements PluginInterface
 
     public function rss(Message $msg, array $matches)
     {
-        $format = $matches['format'] ? $matches['format'] : 'object';
         $url = $matches['url'];
 
         $this->rssService->fetchJson($url)->then(

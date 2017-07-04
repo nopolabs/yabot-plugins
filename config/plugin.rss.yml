@@ -6,9 +6,3 @@ services:
             - '@rss.service'
         tags:
             - { name: yabot.plugin }
-
-    rss.service:
-        class: Nopolabs\Yabot\Plugins\Rss\RssService
-        arguments:
-            - '@logger'
-            - '@guzzle'

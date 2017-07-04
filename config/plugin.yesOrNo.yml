@@ -1,0 +1,8 @@
+services:
+    plugin.yesOrNo:
+        class: Nopolabs\Yabot\Plugins\Examples\YesOrNoPlugin
+        arguments:
+            - '@guzzle'
+            - '@logger'
+        tags:
+            - { name: yabot.plugin }

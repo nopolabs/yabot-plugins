@@ -1,9 +1,0 @@
-parameters:
-    queue.config: []
-
-services:
-    queue:
-        class: Nopolabs\Yabot\Plugins\Queue\Queue
-        arguments:
-            - '@storage'
-            - '%queue.config%'

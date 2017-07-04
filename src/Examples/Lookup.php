@@ -21,8 +21,8 @@ class Lookup implements PluginInterface
             [
                 'prefix' => 'lookup',
                 'matchers' => [
-                    'lookupUser' => "/^<@(?'user'\\w+)>/",
-                    'lookupChannel' => "/^<#(?'channel'\\w+)\\|\\w+>/",
+                    'lookupUser' => "/^@(?'user'\\w+)\\b/",
+                    'lookupChannel' => "/^#(?'channel'\\w+)\\b/",
                 ],
             ],
             $config

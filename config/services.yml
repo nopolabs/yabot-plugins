@@ -1,0 +1,38 @@
+parameters:
+    queue.config: []
+    reservations.resources.config: []
+    smstext.client.config: []
+
+services:
+    http.server:
+        class: Nopolabs\Yabot\Http\HttpServer
+        arguments:
+            - '13337'
+            - '@event.loop'
+            - '@logger'
+
+    queue:
+        class: Nopolabs\Yabot\Plugins\Queue\Queue
+        arguments:
+            - '@storage'
+            - '%queue.config%'
+
+    reservations.resources:
+        class: Nopolabs\Yabot\Plugins\Reservations\Resources
+        arguments:
+            - '@slack.client'
+            - '@storage'
+            - '@event.loop'
+            - '@logger'
+            - '%reservations.resources.config%'
+
+    rss.service:
+        class: Nopolabs\Yabot\Plugins\Rss\RssService
+        arguments:
+            - '@logger'
+            - '@guzzle'
+
+    smstext.client:
+        class: Nopolabs\Yabot\Plugins\Sms\TextClient
+        arguments:
+            - '%smstext.client.config%'

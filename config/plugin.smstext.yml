@@ -12,8 +12,3 @@ services:
             - '%smstext.config%'
         tags:
             - { name: yabot.plugin }
-
-    smstext.client:
-        class: Nopolabs\Yabot\Plugins\Sms\TextClient
-        arguments:
-            - '%smstext.config%'
