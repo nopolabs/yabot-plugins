@@ -15,4 +15,7 @@ return [
         'channel' => 'general',
         'keys' => ['dev1', 'dev2', 'dev3'],
     ],
+    'plugin.github' => [
+        'graphql.token' => 'see https://developer.github.com/v4/guides/forming-calls/ and https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/',
+    ],
 ];

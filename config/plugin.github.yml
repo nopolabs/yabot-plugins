@@ -1,0 +1,8 @@
+services:
+    plugin.github:
+        class: Nopolabs\Yabot\Plugins\GitHubV4\GitHubPlugin
+        arguments:
+            - '@guzzle'
+            - '@logger'
+        tags:
+            - { name: yabot.plugin }

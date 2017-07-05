@@ -4,6 +4,7 @@ imports:
     - { resource: '../vendor/nopolabs/yabot/config/plugin.help.yml' }
     - { resource: '../vendor/nopolabs/yabot/config/plugin.status.yml' }
     - { resource: plugin.giphy.yml }
+    - { resource: plugin.github.yml }
     - { resource: plugin.hey.yml }
     - { resource: plugin.lookup.yml }
     - { resource: plugin.nyt.yml }

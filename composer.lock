@@ -488,12 +488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "d6f8f27bc53bab2b2f0b15012dfc89d9e991cbf1"
+                "reference": "1b87e92e27ff21cf4c1cf75ed9b1235de28f56ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/d6f8f27bc53bab2b2f0b15012dfc89d9e991cbf1",
-                "reference": "d6f8f27bc53bab2b2f0b15012dfc89d9e991cbf1",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/1b87e92e27ff21cf4c1cf75ed9b1235de28f56ed",
+                "reference": "1b87e92e27ff21cf4c1cf75ed9b1235de28f56ed",
                 "shasum": ""
             },
             "require": {
@@ -539,7 +539,7 @@
                 "source": "https://github.com/nopolabs/yabot/tree/master",
                 "issues": "https://github.com/nopolabs/yabot/issues"
             },
-            "time": "2017-07-04 23:13:02"
+            "time": "2017-07-05 05:42:44"
         },
         {
             "name": "psr/cache",
@@ -2551,7 +2551,7 @@
                 }
             ],
             "description": "Helper trait for phpunit testing",
-            "time": "2017-07-04T23:01:04+00:00"
+            "time": "2017-07-04 23:01:04"
         },
         {
             "name": "padraic/humbug_get_contents",
