@@ -445,12 +445,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/react-aware-guzzle-client.git",
-                "reference": "57890191aaa882369914a3c4545afba83e0255f3"
+                "reference": "d3359b7c30ff6f16b1e6a673e3e3dc7f751dd506"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/react-aware-guzzle-client/zipball/57890191aaa882369914a3c4545afba83e0255f3",
-                "reference": "57890191aaa882369914a3c4545afba83e0255f3",
+                "url": "https://api.github.com/repos/nopolabs/react-aware-guzzle-client/zipball/d3359b7c30ff6f16b1e6a673e3e3dc7f751dd506",
+                "reference": "d3359b7c30ff6f16b1e6a673e3e3dc7f751dd506",
                 "shasum": ""
             },
             "require": {
@@ -480,7 +480,7 @@
                 }
             ],
             "description": "An implementation of GuzzleHttp\\Handler\\CurlFactoryInterface that plays nicely with React",
-            "time": "2017-07-04 18:33:39"
+            "time": "2017-07-09 18:15:40"
         },
         {
             "name": "nopolabs/yabot",
@@ -488,12 +488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "1b87e92e27ff21cf4c1cf75ed9b1235de28f56ed"
+                "reference": "0aaf0039201754bac38b6d221469395ce29b1d0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/1b87e92e27ff21cf4c1cf75ed9b1235de28f56ed",
-                "reference": "1b87e92e27ff21cf4c1cf75ed9b1235de28f56ed",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/0aaf0039201754bac38b6d221469395ce29b1d0d",
+                "reference": "0aaf0039201754bac38b6d221469395ce29b1d0d",
                 "shasum": ""
             },
             "require": {
@@ -539,7 +539,7 @@
                 "source": "https://github.com/nopolabs/yabot/tree/master",
                 "issues": "https://github.com/nopolabs/yabot/issues"
             },
-            "time": "2017-07-05 05:42:44"
+            "time": "2017-07-15 01:59:27"
         },
         {
             "name": "psr/cache",
@@ -2551,7 +2551,7 @@
                 }
             ],
             "description": "Helper trait for phpunit testing",
-            "time": "2017-07-04 23:01:04"
+            "time": "2017-07-04T23:01:04+00:00"
         },
         {
             "name": "padraic/humbug_get_contents",

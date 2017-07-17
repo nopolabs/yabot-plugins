@@ -64,7 +64,7 @@ class GiphyPlugin implements PluginInterface
     {
         $requests = [];
 
-        $format = $this->getFormat();
+        $format = $this->getDefaultFormat();
 
         $terms = preg_split('/[\s,]+/', $matches[1]);
 
@@ -79,6 +79,8 @@ class GiphyPlugin implements PluginInterface
                 $msg->reply($term.': '.$gifUrl);
             }
         }
+
+        $msg->setHandled(true);
     }
 
     public function search(Message $msg, array $matches)
@@ -90,7 +92,9 @@ class GiphyPlugin implements PluginInterface
             return;
         }
 
-        list($query, $format) = $this->getQueryAndFormat($matches);
+        $terms = preg_split('/\s+/', $matches[1]);
+        $query = $this->getQuery($terms);
+        $format = $this->getFormat($terms);
 
         $this->giphyService->search($query, $format)->then(
             function (string $gifUrl) use ($msg) {
@@ -104,32 +108,41 @@ class GiphyPlugin implements PluginInterface
         $msg->setHandled(true);
     }
 
-    protected function getQueryAndFormat(array $matches) : array
+    protected function getQuery(array $terms) : string
     {
-        $terms = preg_split('/\s+/', $matches[1]);
         $search = [];
-        $format = $this->getFormat();
         $formats = $this->getFormats();
         foreach ($terms as $term) {
-            if (in_array($term, $formats)) {
-                $format = $term;
-            } else {
+            if (!in_array($term, $formats)) {
                 $search[] = $term;
             }
         }
         $query = implode(' ', $search);
 
-        return [$query, $format];
+        return $query;
     }
 
-    protected function getFormat()
+    protected function getFormat(array $terms) : string
+    {
+        $format = $this->getDefaultFormat();
+        $formats = $this->getFormats();
+        foreach ($terms as $term) {
+            if (in_array($term, $formats)) {
+                $format = $term;
+            }
+        }
+
+        return $format;
+    }
+
+    protected function getDefaultFormat()
     {
         return $this->get('format', 'fixed_width');
     }
 
     protected function getFormats() : array
     {
-        $default = $this->getFormat();
+        $default = $this->getDefaultFormat();
 
         return $this->get('formats', [$default]);;
     }
