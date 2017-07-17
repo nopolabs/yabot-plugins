@@ -34,27 +34,6 @@ class GiphyPlugin implements PluginInterface
                     'search' => '/^(.*)/',
                 ],
                 'format' => 'fixed_width',
-                'formats' => [
-                    'fixed_height',
-                    'fixed_height_still',
-                    'fixed_height_downsampled',
-                    'fixed_width',
-                    'fixed_width_still',
-                    'fixed_width_downsampled',
-                    'fixed_height_small',
-                    'fixed_height_small_still',
-                    'fixed_width_small',
-                    'fixed_width_small_still',
-                    'preview',
-                    'downsized_small',
-                    'downsized',
-                    'downsized_medium',
-                    'downsized_large',
-                    'downsized_still',
-                    'original',
-                    'original_still',
-                    'looping',
-                ],
             ],
             $config
         ));
@@ -142,8 +121,6 @@ class GiphyPlugin implements PluginInterface
 
     protected function getFormats() : array
     {
-        $default = $this->getDefaultFormat();
-
-        return $this->get('formats', [$default]);;
+        return $this->giphyService->getFormats();
     }
 }
