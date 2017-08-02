@@ -237,7 +237,7 @@ EOS;
                     $this->resources->release($key);
                     $results[] = "Released $key.";
                 } else {
-                    $results[] = "$key is reserved by $username";
+                    $results[] = "$key is reserved by {$resource['user']}";
                     $results[] = "you may use 'release $key please' or 'please release $key'";
                     $results[] = "to release an env reserved by someone else.";
                 }

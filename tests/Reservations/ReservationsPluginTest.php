@@ -345,7 +345,7 @@ class ReservationsPluginTest extends TestCase
         ]);
 
         $expectedReply = <<<EOS
-dev1 is reserved by alice
+dev1 is reserved by chris
 you may use 'release dev1 please' or 'please release dev1'
 to release an env reserved by someone else.
 EOS;
