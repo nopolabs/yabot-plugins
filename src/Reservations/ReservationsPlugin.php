@@ -48,6 +48,8 @@ EOS;
                     'releaseMine' => "/^release mine\\b/",
                     'releaseAll' => "/^release all\\b/",
                     'release' => "/^release (?'resource'\\w+)/",
+                    'releasePlease' => "/^release (?'resource'\\w+)\\s+please\\b/",
+                    'pleaseRelease' => "/^please\\s+release (?'resource'\\w+)/",
 
                     'list' => '/^wh(?:at|ich) #resourceNamePlural# are reserved\\b/',
                     'listMine' => "/^wh(?:at|ich) #resourceNamePlural# are mine\\b/",
@@ -86,10 +88,20 @@ EOS;
         $msg->setHandled(true);
     }
 
-    public function release(Message $msg, array $matches)
+    public function releasePlease(Message $msg, array $matches)
+    {
+        $this->release($msg, $matches, true);
+    }
+
+    public function pleaseRelease(Message $msg, array $matches)
+    {
+        $this->release($msg, $matches, true);
+    }
+
+    public function release(Message $msg, array $matches, $please = false)
     {
         $key = $matches['resource'];
-        $results = $this->releaseReservation($msg, $key);
+        $results = $this->releaseReservation($msg, $key, $please);
         $msg->reply(implode("\n", $results));
         $msg->setHandled(true);
     }
@@ -207,7 +219,7 @@ EOS;
         return $results;
     }
 
-    protected function releaseReservation(Message $msg, $key) : array
+    protected function releaseReservation(Message $msg, $key, bool $please = false) : array
     {
         $results = [];
         $resource = $this->resources->getResource($key);
@@ -218,8 +230,17 @@ EOS;
             if (empty($resource)) {
                 $results[] = "$key is not reserved.";
             } else {
-                $this->resources->release($key);
-                $results[] = "Released $key.";
+                $user = $msg->getUser();
+                $username = $user->getUsername();
+
+                if ($please || $resource['user'] === $username) {
+                    $this->resources->release($key);
+                    $results[] = "Released $key.";
+                } else {
+                    $results[] = "$key is reserved by $username";
+                    $results[] = "you may use 'release $key please' or 'please release $key'";
+                    $results[] = "to release an env reserved by someone else.";
+                }
             }
         }
 

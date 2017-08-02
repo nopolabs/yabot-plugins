@@ -322,16 +322,59 @@ class ReservationsPluginTest extends TestCase
         preg_match("/^release (?'resource'\\w+)/", 'release dev1', $matches);
 
         $this->setAtExpectations($this->resources, [
-            ['getResource', ['params' => ['dev1'], 'result' => ['user' => 'chris']]],
+            ['getResource', ['params' => ['dev1'], 'result' => ['user' => 'alice']]],
             ['release', ['params' => ['dev1']]],
         ]);
 
         $this->setAtExpectations($this->message, [
+            ['getUser', ['result' => $this->user]],
             ['reply', ['params' => ['Released dev1.']]],
             ['setHandled', ['params' => [true]]],
         ]);
 
         $this->plugin->release($this->message, $matches);
+    }
+
+    public function testRelease_resourceReservedBySomeoneElse()
+    {
+        preg_match("/^release (?'resource'\\w+)/", 'release dev1', $matches);
+
+        $this->setAtExpectations($this->resources, [
+            ['getResource', ['params' => ['dev1'], 'result' => ['user' => 'chris']]],
+            ['release', 'never'],
+        ]);
+
+        $expectedReply = <<<EOS
+dev1 is reserved by alice
+you may use 'release dev1 please' or 'please release dev1'
+to release an env reserved by someone else.
+EOS;
+
+        $this->setAtExpectations($this->message, [
+            ['getUser', ['result' => $this->user]],
+            ['reply', ['params' => [$expectedReply]]],
+            ['setHandled', ['params' => [true]]],
+        ]);
+
+        $this->plugin->release($this->message, $matches);
+    }
+
+    public function testRelease_please()
+    {
+        preg_match("/^release (?'resource'\\w+)\\s+please/", 'release dev1 please', $matches);
+
+        $this->setAtExpectations($this->resources, [
+            ['getResource', ['params' => ['dev1'], 'result' => ['user' => 'chris']]],
+            ['release', ['params' => ['dev1']]],
+        ]);
+
+        $this->setAtExpectations($this->message, [
+            ['getUser', ['result' => $this->user]],
+            ['reply', ['params' => ['Released dev1.']]],
+            ['setHandled', ['params' => [true]]],
+        ]);
+
+        $this->plugin->release($this->message, $matches, true);
     }
 
     public function testReleaseMine()
