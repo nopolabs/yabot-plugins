@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "183aebfb32adced42c6ec990f000279a",
+    "content-hash": "9d81bc1d527dd05b6c104c9e843a3836",
     "packages": [
         {
             "name": "coderstephen/slack-client",
@@ -488,12 +488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "0f9980458827ca3257c519f3711a6d967d5be021"
+                "reference": "4406bffe200d18db4ad7c167901dde9099abe554"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/0f9980458827ca3257c519f3711a6d967d5be021",
-                "reference": "0f9980458827ca3257c519f3711a6d967d5be021",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/4406bffe200d18db4ad7c167901dde9099abe554",
+                "reference": "4406bffe200d18db4ad7c167901dde9099abe554",
                 "shasum": ""
             },
             "require": {
@@ -501,7 +501,7 @@
                 "guzzlehttp/guzzle": "^6.2",
                 "monolog/monolog": "~1.13",
                 "nopolabs/react-aware-guzzle-client": "dev-master",
-                "php": ">=7.0",
+                "php": ">=7.1",
                 "react/http": "^0.6",
                 "roave/security-advisories": "dev-master",
                 "symfony/config": "^3.2",
@@ -539,7 +539,7 @@
                 "source": "https://github.com/nopolabs/yabot/tree/master",
                 "issues": "https://github.com/nopolabs/yabot/issues"
             },
-            "time": "2017-11-04T22:04:46+00:00"
+            "time": "2017-11-04T22:27:25+00:00"
         },
         {
             "name": "psr/cache",
@@ -4387,6 +4387,8 @@
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.1"
+    },
     "platform-dev": []
 }
