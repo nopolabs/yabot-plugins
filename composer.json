@@ -8,8 +8,13 @@
             "email": "dan@nopolabs.com"
         }
     ],
+    "config" : {
+        "platform": {
+            "php": "7.0"
+        }
+    },
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.0",
         "nopolabs/yabot": "dev-master",
         "twilio/sdk": "^5.7",
         "roave/security-advisories": "dev-master"
