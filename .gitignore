@@ -4,3 +4,4 @@ yabot.php
 /logs/
 /vendor/
 /build/
+.env

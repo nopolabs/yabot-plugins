@@ -488,12 +488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nopolabs/yabot.git",
-                "reference": "e2156b613fa7916e473781e91b02981df35406cb"
+                "reference": "b514ea5c7443080ca3e505fa9c807e22020408e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/e2156b613fa7916e473781e91b02981df35406cb",
-                "reference": "e2156b613fa7916e473781e91b02981df35406cb",
+                "url": "https://api.github.com/repos/nopolabs/yabot/zipball/b514ea5c7443080ca3e505fa9c807e22020408e8",
+                "reference": "b514ea5c7443080ca3e505fa9c807e22020408e8",
                 "shasum": ""
             },
             "require": {
@@ -507,7 +507,8 @@
                 "symfony/config": "^3.2",
                 "symfony/dependency-injection": "^3.2",
                 "symfony/expression-language": "^3.2",
-                "symfony/yaml": "^3.2"
+                "symfony/yaml": "^3.2",
+                "vlucas/phpdotenv": "^2.4"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
@@ -539,7 +540,7 @@
                 "source": "https://github.com/nopolabs/yabot/tree/master",
                 "issues": "https://github.com/nopolabs/yabot/issues"
             },
-            "time": "2017-11-07T04:35:23+00:00"
+            "time": "2017-11-12T23:09:10+00:00"
         },
         {
             "name": "psr/cache",
@@ -1774,6 +1775,56 @@
                 "twilio"
             ],
             "time": "2017-11-03T21:18:01+00:00"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dotenv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause-Attribution"
+            ],
+            "authors": [
+                {
+                    "name": "Vance Lucas",
+                    "email": "vance@vancelucas.com",
+                    "homepage": "http://www.vancelucas.com"
+                }
+            ],
+            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "time": "2016-09-01T10:05:43+00:00"
         },
         {
             "name": "zendframework/zend-escaper",
